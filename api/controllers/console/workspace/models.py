@@ -236,6 +236,11 @@ class ModelProviderModelEnableApi(Resource):
     @login_required
     @account_initialization_required
     def patch(self, provider: str):
+        # 二开部分Begin - 新增限制 不允许普通成员开启模型
+        if not current_user.is_admin_or_owner:
+            raise Forbidden()
+        # 二开部分End - 新增限制 不允许普通成员开启模型
+
         tenant_id = current_user.current_tenant_id
 
         parser = reqparse.RequestParser()
@@ -263,6 +268,11 @@ class ModelProviderModelDisableApi(Resource):
     @login_required
     @account_initialization_required
     def patch(self, provider: str):
+        # 二开部分Begin - 新增限制 不允许普通成员关闭模型
+        if not current_user.is_admin_or_owner:
+            raise Forbidden()
+        # 二开部分End - 新增限制 不允许普通成员关闭模型
+
         tenant_id = current_user.current_tenant_id
 
         parser = reqparse.RequestParser()

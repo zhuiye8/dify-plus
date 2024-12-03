@@ -76,6 +76,7 @@ export type AppListResponse = {
   limit: number
   page: number
   total: number
+  recommended_apps: string[] // app recommended apps[]string
 }
 
 export type AppDetailResponse = App
@@ -130,7 +131,27 @@ export type ApiKeyItemResponse = {
   token: string
   last_used_at: string
   created_at: string
+  // 二开部分Begin - 密钥额度
+  description: string
+  accumulated_quota: number
+  day_limit_quota: number
+  month_limit_quota: number
+  month_used_quota: number
+  day_used_quota: number
+  // 二开部分End - 密钥额度
 }
+
+// 二开部分Begin - 密钥额度
+export type ApikeyItemResponseWithQuotaLimitExtend = {
+  id: string
+  token: string
+  last_used_at: string
+  created_at: string
+  day_limit_quota: number
+  month_limit_quota: number
+  description: string
+}
+// 二开部分End - 密钥额度
 
 export type ApiKeysListResponse = {
   data: ApiKeyItemResponse[]

@@ -12,10 +12,11 @@ from constants.languages import languages
 from events.tenant_event import tenant_was_created
 from extensions.ext_database import db
 from libs.helper import extract_remote_ip
-from libs.oauth import GitHubOAuth, GoogleOAuth, OAuthUserInfo
+from libs.oauth import GitHubOAuth, GoogleOAuth, OaOAuth, OAuthUserInfo
 from models import Account
 from models.account import AccountStatus
 from services.account_service import AccountService, RegisterService, TenantService
+from services.account_service_extend import TenantExtendService
 from services.errors.account import AccountNotFoundError
 from services.errors.workspace import WorkSpaceNotAllowedCreateError, WorkSpaceNotFoundError
 from services.feature_service import FeatureService
@@ -42,7 +43,16 @@ def get_oauth_providers():
                 redirect_uri=dify_config.CONSOLE_API_URL + "/console/api/oauth/authorize/google",
             )
 
-        OAUTH_PROVIDERS = {"github": github_oauth, "google": google_oauth}
+        if not dify_config.OAUTH2_CLIENT_ID or not dify_config.OAUTH2_CLIENT_SECRET:
+            oa_oauth = None
+        else:
+            oa_oauth = OaOAuth(
+                client_id=dify_config.OAUTH2_CLIENT_ID,
+                client_secret=dify_config.OAUTH2_CLIENT_SECRET,
+                redirect_uri=dify_config.CONSOLE_API_URL + "/console/api/oauth/authorize/oauth2",
+            )
+
+        OAUTH_PROVIDERS = {"github": github_oauth, "google": google_oauth, "oauth2": oa_oauth}
         return OAUTH_PROVIDERS
 
 
@@ -118,6 +128,18 @@ class OAuthCallback(Resource):
                 f"{dify_config.CONSOLE_WEB_URL}/signin"
                 "?message=Workspace not found, please contact system admin to invite you to join in a workspace."
             )
+
+        # -------------- 二开部分 Begin - 新增默认区间 --------------
+        tenant_extend_service = TenantExtendService
+        super_admin_id = tenant_extend_service.get_super_admin_id().id
+        super_admin_tenant_id = tenant_extend_service.get_super_admin_tenant_id().id
+        if super_admin_id and super_admin_tenant_id:
+            isCreate = TenantExtendService.create_default_tenant_member_if_not_exist(
+                super_admin_tenant_id, account.id
+            )  # 创建默认空间和用户的关系
+            if isCreate:
+                TenantService.switch_tenant(account, super_admin_tenant_id)  # 切换到默认工作区间
+        # -------------- 二开部分 End - 新增默认区间 --------------
 
         token_pair = AccountService.login(
             account=account,

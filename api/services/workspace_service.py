@@ -1,9 +1,12 @@
+import logging
+
 from flask_login import current_user
 
 from configs import dify_config
 from extensions.ext_database import db
 from models.account import Tenant, TenantAccountJoin, TenantAccountJoinRole
 from services.account_service import TenantService
+from services.account_service_extend import TenantExtendService
 from services.feature_service import FeatureService
 
 
@@ -30,6 +33,14 @@ class WorkspaceService:
             .first()
         )
         tenant_info["role"] = tenant_account_join.role
+
+        # ----------------------- 二开部分Start 添加用户权限 - ----------------------
+        tenant_extend_service = TenantExtendService
+        super_admin_id = tenant_extend_service.get_super_admin_id().id
+        super_admin_tenant_id = tenant_extend_service.get_super_admin_tenant_id().id
+        tenant_info["admin_extend"] = (super_admin_id == current_user.id)
+        tenant_info["tenant_extend"] = (super_admin_tenant_id == tenant.id)
+        # ----------------------- 二开部分Stop 添加用户权限 - ----------------------
 
         can_replace_logo = FeatureService.get_features(tenant_info["id"]).can_replace_logo
 

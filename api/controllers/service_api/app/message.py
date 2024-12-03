@@ -12,7 +12,7 @@ from core.app.entities.app_invoke_entities import InvokeFrom
 from fields.conversation_fields import message_file_fields
 from fields.raws import FilesContainedField
 from libs.helper import TimestampField, uuid_value
-from models.model import App, AppMode, EndUser
+from models.model import ApiToken, App, AppMode, EndUser  # 二开部分End - 密钥额度限制，新增ApiToken
 from services.errors.message import SuggestedQuestionsAfterAnswerDisabledError
 from services.message_service import MessageService
 
@@ -76,7 +76,7 @@ class MessageListApi(Resource):
 
     @validate_app_token(fetch_user_arg=FetchUserArg(fetch_from=WhereisUserArg.QUERY))
     @marshal_with(message_infinite_scroll_pagination_fields)
-    def get(self, app_model: App, end_user: EndUser):
+    def get(self, app_model: App, end_user: EndUser, api_token: ApiToken):  # 二开部分End - 密钥额度限制，api_token
         app_mode = AppMode.value_of(app_model.mode)
         if app_mode not in {AppMode.CHAT, AppMode.AGENT_CHAT, AppMode.ADVANCED_CHAT}:
             raise NotChatAppError()

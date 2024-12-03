@@ -145,7 +145,7 @@ def register_blueprints(app):
 
     CORS(
         service_api_bp,
-        allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+        allow_headers=["Content-Type", "Authorization", "X-App-Code", "Authorization-Extend"],
         methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
     )
     app.register_blueprint(service_api_bp)
@@ -154,7 +154,7 @@ def register_blueprints(app):
         web_bp,
         resources={r"/*": {"origins": dify_config.WEB_API_CORS_ALLOW_ORIGINS}},
         supports_credentials=True,
-        allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+        allow_headers=["Content-Type", "Authorization", "X-App-Code", "Authorization-Extend"],
         methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
         expose_headers=["X-Version", "X-Env"],
     )
@@ -165,7 +165,7 @@ def register_blueprints(app):
         console_app_bp,
         resources={r"/*": {"origins": dify_config.CONSOLE_CORS_ALLOW_ORIGINS}},
         supports_credentials=True,
-        allow_headers=["Content-Type", "Authorization"],
+        allow_headers=["Content-Type", "Authorization", "X-App-Code", "Authorization-Extend"],
         methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
         expose_headers=["X-Version", "X-Env"],
     )

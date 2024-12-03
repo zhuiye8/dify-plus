@@ -23,6 +23,7 @@ from core.ops.ops_trace_manager import TraceQueueManager
 from extensions.ext_database import db
 from factories import file_factory
 from models.account import Account
+from models.api_token_money_extend import ApiTokenMessageJoinsExtend  # 二开部分End - 密钥额度限制
 from models.model import App, EndUser
 
 logger = logging.getLogger(__name__)
@@ -147,6 +148,14 @@ class ChatAppGenerator(MessageBasedAppGenerator):
 
         # init generate records
         (conversation, message) = self._init_generate_records(application_generate_entity, conversation)
+
+        # 二开部分Begin - 密钥额度限制
+        app_token_info = args.get("api_token")
+        if app_token_info:
+            ApiTokenMessageJoinsExtend(
+                app_token_id=app_token_info.id, record_id=message.id, app_mode=app_model.mode
+            ).add_app_token_record_id()
+        # 二开部分End - 密钥额度限制
 
         # init queue manager
         queue_manager = MessageBasedAppQueueManager(

@@ -13,6 +13,7 @@ import ExploreContext from '@/context/explore-context'
 import Confirm from '@/app/components/base/confirm'
 import Divider from '@/app/components/base/divider'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
+import { useAppContext } from '@/context/app-context'
 
 const SelectedDiscoveryIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,6 +26,24 @@ const DiscoveryIcon = () => (
     <path d="M8.74786 9.89676L12.0003 14.6669M7.25269 9.89676L4.00027 14.6669M9.3336 8.80031C9.3336 9.53669 8.73665 10.1336 8.00027 10.1336C7.26389 10.1336 6.66694 9.53669 6.66694 8.80031C6.66694 8.06393 7.26389 7.46698 8.00027 7.46698C8.73665 7.46698 9.3336 8.06393 9.3336 8.80031ZM11.4326 3.02182L3.57641 5.12689C3.39609 5.1752 3.30593 5.19936 3.24646 5.25291C3.19415 5.30001 3.15809 5.36247 3.14345 5.43132C3.12681 5.5096 3.15097 5.59976 3.19929 5.78008L3.78595 7.96951C3.83426 8.14984 3.85842 8.24 3.91197 8.29947C3.95907 8.35178 4.02153 8.38784 4.09038 8.40248C4.16866 8.41911 4.25882 8.39496 4.43914 8.34664L12.2953 6.24158L11.4326 3.02182ZM14.5285 6.33338C13.8072 6.52665 13.4466 6.62328 13.1335 6.55673C12.8581 6.49819 12.6082 6.35396 12.4198 6.14471C12.2056 5.90682 12.109 5.54618 11.9157 4.82489L11.8122 4.43852C11.6189 3.71722 11.5223 3.35658 11.5889 3.04347C11.6474 2.76805 11.7916 2.51823 12.0009 2.32982C12.2388 2.11563 12.5994 2.019 13.3207 1.82573C13.501 1.77741 13.5912 1.75325 13.6695 1.76989C13.7383 1.78452 13.8008 1.82058 13.8479 1.87289C13.9014 1.93237 13.9256 2.02253 13.9739 2.20285L14.9057 5.68018C14.954 5.86051 14.9781 5.95067 14.9615 6.02894C14.9469 6.0978 14.9108 6.16025 14.8585 6.20736C14.799 6.2609 14.7088 6.28506 14.5285 6.33338ZM2.33475 8.22033L3.23628 7.97876C3.4166 7.93044 3.50676 7.90628 3.56623 7.85274C3.61854 7.80563 3.6546 7.74318 3.66924 7.67433C3.68588 7.59605 3.66172 7.50589 3.6134 7.32556L3.37184 6.42403C3.32352 6.24371 3.29936 6.15355 3.24581 6.09408C3.19871 6.04176 3.13626 6.00571 3.0674 5.99107C2.98912 5.97443 2.89896 5.99859 2.71864 6.04691L1.81711 6.28847C1.63678 6.33679 1.54662 6.36095 1.48715 6.4145C1.43484 6.4616 1.39878 6.52405 1.38415 6.59291C1.36751 6.67119 1.39167 6.76135 1.43998 6.94167L1.68155 7.8432C1.72987 8.02352 1.75402 8.11369 1.80757 8.17316C1.85467 8.22547 1.91713 8.26153 1.98598 8.27616C2.06426 8.2928 2.15442 8.26864 2.33475 8.22033Z" stroke="#344054" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
+
+// ----------------------- 二开部分Begin 新增应用中心-----------------------
+const SelectedAppCenterIcon = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+    className="remixicon w-4 h-4">
+    <path
+      d="M13.5 2C13.5 2.44425 13.3069 2.84339 13 3.11805V5H18C19.6569 5 21 6.34315 21 8V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8C3 6.34315 4.34315 5 6 5H11V3.11805C10.6931 2.84339 10.5 2.44425 10.5 2C10.5 1.17157 11.1716 0.5 12 0.5C12.8284 0.5 13.5 1.17157 13.5 2ZM0 10H2V16H0V10ZM24 10H22V16H24V10ZM9 14.5C9.82843 14.5 10.5 13.8284 10.5 13C10.5 12.1716 9.82843 11.5 9 11.5C8.17157 11.5 7.5 12.1716 7.5 13C7.5 13.8284 8.17157 14.5 9 14.5ZM16.5 13C16.5 12.1716 15.8284 11.5 15 11.5C14.1716 11.5 13.5 12.1716 13.5 13C13.5 13.8284 14.1716 14.5 15 14.5C15.8284 14.5 16.5 13.8284 16.5 13Z"></path>
+  </svg>
+)
+
+const AppCenterIcon = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+    className="remixicon w-4 h-4">
+    <path
+      d="M13.5 2C13.5 2.44425 13.3069 2.84339 13 3.11805V5H18C19.6569 5 21 6.34315 21 8V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8C3 6.34315 4.34315 5 6 5H11V3.11805C10.6931 2.84339 10.5 2.44425 10.5 2C10.5 1.17157 11.1716 0.5 12 0.5C12.8284 0.5 13.5 1.17157 13.5 2ZM6 7C5.44772 7 5 7.44772 5 8V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V8C19 7.44772 18.5523 7 18 7H13H11H6ZM2 10H0V16H2V10ZM22 10H24V16H22V10ZM9 14.5C9.82843 14.5 10.5 13.8284 10.5 13C10.5 12.1716 9.82843 11.5 9 11.5C8.17157 11.5 7.5 12.1716 7.5 13C7.5 13.8284 8.17157 14.5 9 14.5ZM15 14.5C15.8284 14.5 16.5 13.8284 16.5 13C16.5 12.1716 15.8284 11.5 15 11.5C14.1716 11.5 13.5 12.1716 13.5 13C13.5 13.8284 14.1716 14.5 15 14.5Z"></path>
+  </svg>
+)
+// ----------------------- 二开部分End 新增应用中心-----------------------
 
 const SelectedChatIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,6 +68,8 @@ const SideBar: FC<IExploreSideBarProps> = ({
   const segments = useSelectedLayoutSegments()
   const lastSegment = segments.slice(-1)[0]
   const isDiscoverySelected = lastSegment === 'apps'
+  const isAppCenterSelected = lastSegment === 'apps-center-extend' // 二开部分 - 新增应用中心
+  const { currentWorkspace } = useAppContext() // 二开部分 - “发现”页的隐藏显示逻辑
   const isChatSelected = lastSegment === 'chat'
   const { installedApps, setInstalledApps } = useContext(ExploreContext)
 
@@ -93,7 +114,8 @@ const SideBar: FC<IExploreSideBarProps> = ({
   const pinnedAppsCount = installedApps.filter(({ is_pinned }) => is_pinned).length
   return (
     <div className='w-fit sm:w-[216px] shrink-0 pt-6 px-4 border-gray-200 cursor-pointer'>
-      <div>
+      {/* ----------------------- 二开部分Begin 新增应用中心 ----------------------- */}
+      {(currentWorkspace.role === 'owner') && (<div>
         <Link
           href='/explore/apps'
           className={cn(isDiscoverySelected ? 'text-primary-600  bg-white font-semibold' : 'text-gray-700 font-medium hover:bg-gray-200', 'flex items-center pc:justify-start pc:w-full mobile:justify-center mobile:w-fit h-9 px-3 mobile:px-2 gap-2 rounded-lg')}
@@ -103,6 +125,18 @@ const SideBar: FC<IExploreSideBarProps> = ({
           {!isMobile && <div className='text-sm'>{t('explore.sidebar.discovery')}</div>}
         </Link>
       </div>
+      )}
+      <div className='mt-2'>
+        <Link
+          href='/explore/apps-center-extend'
+          className={cn(isAppCenterSelected ? 'text-primary-600  bg-white font-semibold' : 'text-gray-700 font-medium hover:bg-gray-200', 'flex items-center pc:justify-start pc:w-full mobile:justify-center mobile:w-fit h-9 px-3 mobile:px-2 gap-2 rounded-lg')}
+          style={isAppCenterSelected ? { boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)' } : {}}
+        >
+          {isAppCenterSelected ? <SelectedAppCenterIcon /> : <AppCenterIcon />}
+          {!isMobile && <div className='text-sm'>{t('extend.sidebar.appCenter')}</div>}
+        </Link>
+      </div>
+      {/* ----------------------- 二开部分End 新增应用中心 ----------------------- */}
       {installedApps.length > 0 && (
         <div className='mt-10'>
           <p className='pl-2 mobile:px-0 text-xs text-gray-500 break-all font-medium uppercase'>{t('explore.sidebar.workspace')}</p>

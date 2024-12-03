@@ -2,6 +2,7 @@ from pydantic_settings import SettingsConfigDict
 
 from configs.deploy import DeploymentConfig
 from configs.enterprise import EnterpriseFeatureConfig
+from configs.extend import ExtendConfig
 from configs.extra import ExtraServiceConfig
 from configs.feature import FeatureConfig
 from configs.middleware import MiddlewareConfig
@@ -22,6 +23,8 @@ class DifyConfig(
     # Enterprise feature configs
     # **Before using, please contact business@dify.ai by email to inquire about licensing matters.**
     EnterpriseFeatureConfig,
+    # 二开部分 新增配置
+    ExtendConfig,
 ):
     model_config = SettingsConfigDict(
         # read from dotenv format config file

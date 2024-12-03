@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react'
 import { useContext } from 'use-context-selector'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useTranslation } from 'react-i18next'
-import { ReactMultiEmail } from 'react-multi-email'
 import RoleSelector from './role-selector'
 import s from './index.module.css'
 import cn from '@/utils/classnames'
@@ -13,6 +12,7 @@ import { inviteMember } from '@/service/common'
 import { emailRegex } from '@/config'
 import { ToastContext } from '@/app/components/base/toast'
 import type { InvitationResult } from '@/models/common'
+import ReactMultiEmailExtend from '@/app/components/base/react-multi-email-extend' // Add members and append the email suffix email domain by default.
 import I18n from '@/context/i18n'
 
 import 'react-multi-email/dist/style.css'
@@ -63,25 +63,9 @@ const InviteModal = ({
         <div>
           <div className='mb-2 text-sm font-medium text-gray-900'>{t('common.members.email')}</div>
           <div className='mb-8 h-36 flex items-stretch'>
-            <ReactMultiEmail
-              className={cn('w-full pt-2 px-3 outline-none border-none',
-                'appearance-none text-sm text-gray-900 rounded-lg overflow-y-auto',
-                s.emailsInput,
-              )}
-              autoFocus
-              emails={emails}
-              inputClassName='bg-transparent'
-              onChange={setEmails}
-              getLabel={(email, index, removeEmail) =>
-                <div data-tag key={index} className={cn(s.emailBackground)}>
-                  <div data-tag-item>{email}</div>
-                  <span data-tag-handle onClick={() => removeEmail(index)}>
-                    ×
-                  </span>
-                </div>
-              }
-              placeholder={t('common.members.emailPlaceholder') || ''}
-            />
+            {/* Start: Add members and append the email suffix email domain by default */}
+            <ReactMultiEmailExtend emails={emails} onChange={setEmails} />
+            {/* Stop: Add members and append the email suffix email domain by default */}
           </div>
           <div className='mb-6'>
             <RoleSelector value={role} onChange={setRole} />
@@ -89,8 +73,8 @@ const InviteModal = ({
           <Button
             tabIndex={0}
             className='w-full'
-            onClick={handleSend}
             disabled={!emails.length}
+            onClick={handleSend}
             variant='primary'
           >
             {t('common.members.sendInvite')}

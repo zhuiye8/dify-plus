@@ -94,6 +94,7 @@ const Apps = () => {
       return router.replace('/datasets')
   }, [router, isCurrentWorkspaceDatasetOperator])
 
+  const recommendedApps = data?.at(-1)?.recommended_apps ?? [] // app recommended apps[]string
   useEffect(() => {
     const hasMore = data?.at(-1)?.has_more ?? true
     let observer: IntersectionObserver | undefined
@@ -147,7 +148,7 @@ const Apps = () => {
         {isCurrentWorkspaceEditor
           && <NewAppCard onSuccess={mutate} />}
         {data?.map(({ data: apps }) => apps.map(app => (
-          <AppCard key={app.id} app={app} onRefresh={mutate} />
+          <AppCard key={app.id} app={app} onRefresh={mutate} onApp={recommendedApps.includes(app.id)} />// app recommended apps[]string
         )))}
         <CheckModal />
       </nav>

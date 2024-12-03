@@ -35,7 +35,6 @@ const ParameterItem: FC<ParameterItemProps> = ({
 
   const getDefaultValue = () => {
     let defaultValue: ParameterValue
-
     if (parameterRule.type === 'int' || parameterRule.type === 'float')
       defaultValue = isNullOrUndefined(parameterRule.default) ? (parameterRule.min || 0) : parameterRule.default
     else if (parameterRule.type === 'string' || parameterRule.type === 'text')
@@ -47,7 +46,6 @@ const ParameterItem: FC<ParameterItemProps> = ({
 
     return defaultValue
   }
-
   const renderValue = value ?? localValue ?? getDefaultValue()
 
   const handleInputChange = (newValue: ParameterValue) => {

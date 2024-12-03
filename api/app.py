@@ -22,7 +22,7 @@ import threading
 import time
 import warnings
 
-from flask import Response
+from flask import Response, request
 
 from app_factory import create_app
 
@@ -57,6 +57,12 @@ def after_request(response):
     """Add Version headers to the response."""
     response.headers.add("X-Version", dify_config.CURRENT_VERSION)
     response.headers.add("X-Env", dify_config.DEPLOY_ENV)
+    # Extend: Start New proxy authentication: Login and write JWT token to cookies
+    cookie = request.cookies.get("x-token")
+    token = request.headers.get("Authorization")
+    if token is not None and len(token) > 0 and token != cookie:
+        response.set_cookie("x-token", token[7:], httponly=True)
+    # Extend: Stop New proxy authentication: Login and write JWT token to cookies
     return response
 
 

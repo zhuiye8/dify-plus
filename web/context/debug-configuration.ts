@@ -101,6 +101,10 @@ type IDebugConfiguration = {
   isShowDocumentConfig: boolean
   rerankSettingModalOpen: boolean
   setRerankSettingModalOpen: (rerankSettingModalOpen: boolean) => void
+  // 二开部分Begin - 文件上传功能
+  visionConfigExtend: VisionSettings
+  setVisionConfigExtend: (visionConfigExtend: VisionSettings, noNotice?: boolean) => void
+  // 二开部分End - 文件上传功能
 }
 
 const DebugConfigurationContext = createContext<IDebugConfiguration>({
@@ -250,6 +254,15 @@ const DebugConfigurationContext = createContext<IDebugConfiguration>({
   isShowDocumentConfig: false,
   rerankSettingModalOpen: false,
   setRerankSettingModalOpen: () => { },
+  // 二开部分Begin - 文件上传功能
+  visionConfigExtend: {
+    enabled: false,
+    number_limits: 2,
+    detail: Resolution.low,
+    transfer_methods: [TransferMethod.remote_url],
+  },
+  setVisionConfigExtend: () => { },
+  // 二开部分End - 文件上传功能
 })
 
 export const useDebugConfigurationContext = () => useContext(DebugConfigurationContext)

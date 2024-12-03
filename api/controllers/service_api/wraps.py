@@ -1,3 +1,4 @@
+import logging  # ---------------------二开部分  密钥额度限制 ---------------------
 from collections.abc import Callable
 from datetime import UTC, datetime
 from enum import Enum
@@ -10,10 +11,28 @@ from flask_restful import Resource
 from pydantic import BaseModel
 from werkzeug.exceptions import Forbidden, Unauthorized
 
+from controllers.service_api.app.error_extend import (
+    AccountNoMoneyErrorExtend,
+    ApiTokenDayNoMoneyErrorExtend,
+    ApiTokenMonthNoMoneyErrorExtend,
+)
 from extensions.ext_database import db
 from libs.login import _get_user
-from models.account import Account, Tenant, TenantAccountJoin, TenantStatus
+from models.account import (  # 二开部分  额度限制，API调用计费，新增TenantAccountRole
+    Account,
+    Tenant,
+    TenantAccountJoin,
+    TenantAccountRole,
+    TenantStatus,
+)
+from models.account_money_extend import AccountMoneyExtend
+from models.api_token_money_extend import (
+    ApiTokenMoneyExtend,  # 二开部分  密钥额度限制
+)
 from models.model import ApiToken, App, EndUser
+from models.model_extend import (
+    EndUserAccountJoinsExtend,  # 二开部分  额度限制，API调用计费
+)
 from services.feature_service import FeatureService
 
 
@@ -52,6 +71,47 @@ def validate_app_token(view: Optional[Callable] = None, *, fetch_user_arg: Optio
             if tenant.status == TenantStatus.ARCHIVE:
                 raise Forbidden("The workspace's status is archived.")
 
+            # ---------------------二开部分Begin  额度限制，API调用计费 ---------------------
+            tenantAccountJoin = (
+                db.session.query(TenantAccountJoin)
+                .filter(
+                    TenantAccountJoin.tenant_id == app_model.tenant_id,
+                    TenantAccountJoin.role == TenantAccountRole.OWNER,
+                )
+                .first()
+            )
+            if not tenantAccountJoin:
+                raise Forbidden("The workspace has not owner")
+
+            # TODO 需要写入缓存，读缓存
+            account_money = (
+                db.session.query(AccountMoneyExtend)
+                .filter(AccountMoneyExtend.account_id == tenantAccountJoin.account_id)
+                .first()
+            )
+            if account_money and account_money.used_quota >= account_money.total_quota:
+                raise AccountNoMoneyErrorExtend()
+
+            # 密钥额度判断
+            kwargs["api_token"] = api_token  # API token消息数据传递下去
+            api_token_money = (
+                db.session.query(ApiTokenMoneyExtend).filter(ApiTokenMoneyExtend.app_token_id == api_token.id).first()
+            )
+            if api_token_money:
+                if (
+                    api_token_money.day_limit_quota != -1
+                    and api_token_money.day_used_quota >= api_token_money.day_limit_quota
+                ):
+                    raise ApiTokenDayNoMoneyErrorExtend()
+                if (
+                    api_token_money.month_limit_quota != -1
+                    and api_token_money.month_used_quota >= api_token_money.month_limit_quota
+                ):
+                    raise ApiTokenMonthNoMoneyErrorExtend()
+            else:
+                logging.warning("数据异常，该密钥没有额度数据: %s", api_token.id)
+            # ---------------------二开部分End  额度限制，API调用计费 ---------------------
+
             kwargs["app_model"] = app_model
 
             if fetch_user_arg:
@@ -72,6 +132,13 @@ def validate_app_token(view: Optional[Callable] = None, *, fetch_user_arg: Optio
                     user_id = str(user_id)
 
                 kwargs["end_user"] = create_or_update_end_user_for_user_id(app_model, user_id)
+
+                # ---------------------二开部分Begin  额度限制，API调用计费 ---------------------
+                if kwargs.get("end_user"):
+                    create_or_update_end_user_account_join_extend(
+                        kwargs["end_user"].id, tenantAccountJoin.account_id, app_model.id
+                    )
+                # ---------------------二开部分End  额度限制，API调用计费 ---------------------
 
             return view_func(*args, **kwargs)
 
@@ -234,6 +301,26 @@ def create_or_update_end_user_for_user_id(app_model: App, user_id: Optional[str]
         db.session.commit()
 
     return end_user
+
+
+# ---------------------二开部分Begin  额度限制，API调用计费 ---------------------
+def create_or_update_end_user_account_join_extend(end_user_id, account_id, app_id: str) -> EndUserAccountJoinsExtend:
+    # 插入节点账号id和用户账号id关联关系，以方便扣钱查询
+    end_user_account_join = (
+        db.session.query(EndUserAccountJoinsExtend)
+        .filter(EndUserAccountJoinsExtend.end_user_id == end_user_id, EndUserAccountJoinsExtend.app_id == app_id)
+        .first()
+    )
+
+    if end_user_account_join is None:
+        end_user_account_join = EndUserAccountJoinsExtend(end_user_id=end_user_id, account_id=account_id, app_id=app_id)
+        db.session.add(end_user_account_join)
+    db.session.commit()
+
+    return end_user_account_join
+
+
+# ---------------------二开部分End 额度限制，API调用计费 ---------------------
 
 
 class DatasetApiResource(Resource):

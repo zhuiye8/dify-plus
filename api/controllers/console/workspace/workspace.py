@@ -46,6 +46,10 @@ tenant_fields = {
     "in_trial": fields.Boolean,
     "trial_end_reason": fields.String,
     "custom_config": fields.Raw(attribute="custom_config"),
+    # ----------------------- 二开部分Start 添加用户权限 - ----------------------
+    "admin_extend": fields.Boolean,
+    "tenant_extend": fields.Boolean,
+    # ----------------------- 二开部分Stop 添加用户权限 - ----------------------
 }
 
 tenants_fields = {

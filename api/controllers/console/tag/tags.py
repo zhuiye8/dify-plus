@@ -8,6 +8,7 @@ from controllers.console.wraps import account_initialization_required, setup_req
 from fields.tag_fields import tag_fields
 from libs.login import login_required
 from models.model import Tag
+from services.recommended_app_service_extend import RecommendedAppService
 from services.tag_service import TagService
 
 
@@ -131,6 +132,9 @@ class TagBindingDeleteApi(Resource):
         )
         args = parser.parse_args()
         TagService.delete_tag_binding(args)
+        # ---------------- start sync app to
+        RecommendedAppService.sync_recommended_app(args.get("target_id", ""))
+        # ---------------- stop sync app to
 
         return 200
 

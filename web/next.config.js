@@ -39,7 +39,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/apps',
+        destination: '/explore/apps-center-extend', // 二开部分 - 首页跳转改为探索页：/apps 改为 /explore/apps-center-extend
         permanent: false,
       },
     ]

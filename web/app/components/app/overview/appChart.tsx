@@ -74,6 +74,7 @@ const defaultPeriod = {
 export type PeriodParams = {
   name: string
   query?: {
+    account?: boolean //  Extend: Added a new app personal expenses page
     start: string
     end: string
   }

@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import {FC, useEffect} from 'react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebounceFn, useMount } from 'ahooks'
@@ -21,12 +21,14 @@ import { fetchTagList } from '@/service/tag'
 type TagFilterProps = {
   type: 'knowledge' | 'app'
   value: string[]
+  defaultValue?: string[] // extend: Application Center Search Start
   onChange: (v: string[]) => void
 }
 const TagFilter: FC<TagFilterProps> = ({
   type,
   value,
   onChange,
+  defaultValue, // extend: Application Center Search Start
 }) => {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
@@ -60,10 +62,29 @@ const TagFilter: FC<TagFilterProps> = ({
   }
 
   useMount(() => {
+    if (defaultValue)
+      return
     fetchTagList(type).then((res) => {
       setTagList(res)
     })
   })
+
+  // extend: Application Center Search Start
+  useEffect(() => {
+    if (!defaultValue)
+      return
+    const itemList: Tag[] = []
+    for (const item of defaultValue) {
+      itemList.push({
+        binding_count: 0,
+        type: 'app',
+        name: item,
+        id: item,
+      })
+    }
+    setTagList(itemList)
+  }, [defaultValue])
+  // extend: Application Center Search Stop
 
   return (
     <PortalToFollowElem
@@ -87,7 +108,7 @@ const TagFilter: FC<TagFilterProps> = ({
               <Tag01 className='h-3.5 w-3.5 text-gray-700' />
             </div>
             <div className='text-[13px] leading-[18px] text-gray-700'>
-              {!value.length && t('common.tag.placeholder')}
+              {!value.length && ((defaultValue === undefined) ? t('common.tag.placeholder') : '全部分类')}
               {!!value.length && currentTag?.name}
             </div>
             {value.length > 1 && (

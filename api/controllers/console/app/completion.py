@@ -15,6 +15,7 @@ from controllers.console.app.error import (
     ProviderQuotaExceededError,
 )
 from controllers.console.app.wraps import get_app_model
+from controllers.console.money_extend import money_limit
 from controllers.console.wraps import account_initialization_required, setup_required
 from controllers.web.error import InvokeRateLimitError as InvokeRateLimitHttpError
 from core.app.apps.base_app_queue_manager import AppQueueManager
@@ -39,6 +40,7 @@ class CompletionMessageApi(Resource):
     @setup_required
     @login_required
     @account_initialization_required
+    @money_limit
     @get_app_model(mode=AppMode.COMPLETION)
     def post(self, app_model):
         parser = reqparse.RequestParser()
@@ -100,6 +102,7 @@ class ChatMessageApi(Resource):
     @setup_required
     @login_required
     @account_initialization_required
+    @money_limit
     @get_app_model(mode=[AppMode.CHAT, AppMode.AGENT_CHAT])
     def post(self, app_model):
         parser = reqparse.RequestParser()

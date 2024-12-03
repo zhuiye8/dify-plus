@@ -5,6 +5,7 @@ from .create_installed_app_when_app_created import handle
 from .create_site_record_when_app_created import handle
 from .deduct_quota_when_message_created import handle
 from .delete_tool_parameters_cache_when_sync_draft_workflow import handle
+from .update_account_money_when_messaeg_created_extend import handle  # 二开部分：新增限额判断
 from .update_app_dataset_join_when_app_model_config_updated import handle
 from .update_app_dataset_join_when_app_published_workflow_updated import handle
 from .update_provider_last_used_at_when_message_created import handle

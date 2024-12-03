@@ -64,7 +64,9 @@ class AppListApi(Resource):
         app_service = AppService()
         app_pagination = app_service.get_paginate_apps(current_user.current_tenant_id, args)
         if not app_pagination:
-            return {"data": [], "total": 0, "page": 1, "limit": 20, "has_more": False}
+            # ---------------- start app list
+            return {"data": [], "total": 0, "page": 1, "limit": 20, "has_more": False, "recommended_apps": []}
+            # ---------------- stop app list
 
         return marshal(app_pagination, app_pagination_fields)
 

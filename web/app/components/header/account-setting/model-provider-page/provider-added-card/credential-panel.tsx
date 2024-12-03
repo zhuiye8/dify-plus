@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import React from 'react' // 二开部分 模型同步工作区功能
 import { useTranslation } from 'react-i18next'
 import type { ModelProvider } from '../declarations'
 import {

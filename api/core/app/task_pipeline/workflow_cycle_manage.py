@@ -54,6 +54,9 @@ from models.workflow import (
     WorkflowRun,
     WorkflowRunStatus,
 )
+from tasks.extend.update_account_money_when_workflow_node_execution_created_extend import (
+    update_account_money_when_workflow_node_execution_created_extend,  # 二开部分End - 密钥额度限制
+)
 
 
 class WorkflowCycleManage:
@@ -314,6 +317,11 @@ class WorkflowCycleManage:
         workflow_node_execution.elapsed_time = elapsed_time
 
         self._wip_workflow_node_executions.pop(workflow_node_execution.node_execution_id)
+
+        # 二开部分Begin - 额度限制
+        workflow_node_execution_dict = jsonable_encoder(workflow_node_execution)  # 转化为json字典
+        update_account_money_when_workflow_node_execution_created_extend.delay(workflow_node_execution_dict)
+        # 二开部分End - 额度限制
 
         return workflow_node_execution
 

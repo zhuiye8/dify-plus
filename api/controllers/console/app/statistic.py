@@ -83,6 +83,7 @@ class DailyConversationStatistic(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
         parser.add_argument("end", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
+        parser.add_argument("account", type=bool, location="args")  # Extend added a new app personal expenses page
         args = parser.parse_args()
 
         sql_query = """SELECT
@@ -93,6 +94,16 @@ FROM
 WHERE
     app_id = :app_id"""
         arg_dict = {"tz": account.timezone, "app_id": app_model.id}
+
+        # Extend Start: added a new app personal expenses page
+        if args.account is not None and args.account:
+            sql_query = """SELECT date(DATE_TRUNC('day', created_at AT TIME ZONE 'UTC' AT TIME ZONE :tz )) AS date, 
+            count(distinct messages.conversation_id) AS conversation_count FROM messages where app_id = :app_id AND (
+            from_account_id = :user_id OR from_end_user_id IN (SELECT DISTINCT(id) FROM end_users WHERE 
+            external_user_id = :user_id))
+        """
+            arg_dict = {"tz": account.timezone, "app_id": app_model.id, "user_id": account.id}
+        # Extend Stop: added a new app personal expenses page
 
         timezone = pytz.timezone(account.timezone)
         utc_timezone = pytz.utc
@@ -197,6 +208,7 @@ class DailyTokenCostStatistic(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
         parser.add_argument("end", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
+        parser.add_argument("account", type=bool, location="args")  # Extend added a new app personal expenses page
         args = parser.parse_args()
 
         sql_query = """SELECT
@@ -208,6 +220,22 @@ FROM
 WHERE
     app_id = :app_id"""
         arg_dict = {"tz": account.timezone, "app_id": app_model.id}
+
+        # Extend Start: added a new app personal expenses page
+        if args.account is not None and args.account:
+            sql_query = """SELECT 
+            DATE(DATE_TRUNC('day', created_at AT TIME ZONE 'UTC' AT TIME ZONE :tz )) AS date, 
+            (SUM(messages.message_tokens) + SUM(messages.answer_tokens)) AS token_count, 
+            SUM(total_price) AS total_price 
+            FROM 
+                messages 
+            where 
+                app_id = :app_id 
+            AND (from_account_id = :user_id OR from_end_user_id IN (
+                SELECT DISTINCT(id) FROM end_users WHERE external_user_id = :user_id))
+            """
+            arg_dict = {"tz": account.timezone, "app_id": app_model.id, "user_id": account.id}
+        # Extend Stop: added a new app personal expenses page
 
         timezone = pytz.timezone(account.timezone)
         utc_timezone = pytz.utc
@@ -257,6 +285,7 @@ class AverageSessionInteractionStatistic(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
         parser.add_argument("end", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
+        parser.add_argument("account", type=bool, location="args")  # Extend added a new app personal expenses page
         args = parser.parse_args()
 
         sql_query = """SELECT
@@ -276,6 +305,16 @@ FROM
             c.override_model_configs IS NULL
             AND c.app_id = :app_id"""
         arg_dict = {"tz": account.timezone, "app_id": app_model.id}
+
+        # Extend Start: added a new app personal expenses page
+        if args.account is not None and args.account:
+            sql_query = """SELECT date(DATE_TRUNC('day', c.created_at AT TIME ZONE 'UTC' AT TIME ZONE :tz )) AS date, 
+            AVG(subquery.message_count) AS interactions FROM (SELECT m.conversation_id, COUNT(m.id) AS message_count
+            FROM conversations c JOIN messages m ON c.id = m.conversation_id
+            WHERE c.override_model_configs IS NULL AND c.app_id = :app_id AND (c.from_account_id = :user_id OR 
+            c.from_end_user_id IN (SELECT DISTINCT(id) FROM end_users WHERE external_user_id = :user_id))"""
+            arg_dict = {"tz": account.timezone, "app_id": app_model.id, "user_id": account.id}
+        # Extend Stop: added a new app personal expenses page
 
         timezone = pytz.timezone(account.timezone)
         utc_timezone = pytz.utc
@@ -400,6 +439,7 @@ class AverageResponseTimeStatistic(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
         parser.add_argument("end", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
+        parser.add_argument("account", type=bool, location="args")  # Extend added a new app personal expenses page
         args = parser.parse_args()
 
         sql_query = """SELECT
@@ -410,6 +450,17 @@ FROM
 WHERE
     app_id = :app_id"""
         arg_dict = {"tz": account.timezone, "app_id": app_model.id}
+
+        # Extend Start: added a new app personal expenses page
+        if args.account is not None and args.account:
+            sql_query = """
+            SELECT date(DATE_TRUNC('day', created_at AT TIME ZONE 'UTC' AT TIME ZONE :tz )) AS date, 
+            AVG(provider_response_latency) as latency FROM messages
+            WHERE app_id = :app_id AND (from_account_id = :user_id OR from_end_user_id IN (
+            SELECT DISTINCT(id) FROM end_users WHERE external_user_id = :user_id))
+            """
+            arg_dict = {"tz": account.timezone, "app_id": app_model.id, "user_id": account.id}
+        # Extend Stop: added a new app personal expenses page
 
         timezone = pytz.timezone(account.timezone)
         utc_timezone = pytz.utc

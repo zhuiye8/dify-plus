@@ -30,6 +30,10 @@ export type UserProfileResponse = {
   last_active_at?: string
   last_login_ip?: string
   created_at?: string
+  // ----------------------- 二开部分Start 添加用户权限 - --------------------------------
+  admin_extend?: boolean
+  tenant_extend?: boolean
+  // ----------------------- 二开部分Stop 添加用户权限 - --------------------------------
 }
 
 export type UserProfileOriginResponse = {
@@ -134,6 +138,10 @@ export type ICurrentWorkspace = Omit<IWorkspace, 'current'> & {
     remove_webapp_brand?: boolean
     replace_webapp_logo?: string
   }
+  // ----------------------- 二开部分Start 添加用户权限 - --------------------------------
+  admin_extend?: boolean
+  tenant_extend?: boolean
+  // ----------------------- 二开部分Stop 添加用户权限 - --------------------------------
 }
 
 export type DataSourceNotionPage = {
@@ -239,6 +247,42 @@ export type ApiBasedExtension = {
   api_endpoint?: string
   api_key?: string
 }
+
+// Extend Start: Connecting Fees Frontend
+export type BillingProps = {
+  path: string
+  value: string
+  address: string
+  header: string[]
+  description: string
+}
+
+export type ApiForwardedBillingProps = {
+  para: string
+  price: number
+  remark: string
+  benchmark: string
+  operation: number
+  children: ApiForwardedBillingProps[]
+}
+
+export type ApiForwardedProps = {
+  para: string
+  billing: ApiForwardedBillingProps[]
+  children: []
+  price: number
+  benchmark: number
+  operation: number
+  content_type: number
+  forwarding_id: string
+  description: string
+  models: string
+  remark: string
+  path: string
+  id: string
+  status: boolean
+}
+// Extend Stop: Connecting Fees Frontend
 
 export type CodeBasedExtensionForm = {
   type: string

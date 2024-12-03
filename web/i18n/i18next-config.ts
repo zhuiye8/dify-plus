@@ -6,6 +6,7 @@ import { LanguagesSupported } from '@/i18n/language'
 
 const loadLangResources = (lang: string) => ({
   translation: {
+    extend: require(`./${lang}/extend`).default, // 二开部分：新增的多语言
     common: require(`./${lang}/common`).default,
     layout: require(`./${lang}/layout`).default,
     login: require(`./${lang}/login`).default,

@@ -8,6 +8,7 @@ import cn from '@/utils/classnames'
 import ItemOperation from '@/app/components/explore/item-operation'
 import AppIcon from '@/app/components/base/app-icon'
 import type { AppIconType } from '@/types/app'
+import { useAppContext } from '@/context/app-context' // 二开部分 - 现在普通成员，在默认空间，也能在侧边栏置顶应用，这样不符合逻辑
 
 export type IAppNavItemProps = {
   isMobile: boolean
@@ -42,6 +43,7 @@ export default function AppNavItem({
   const url = `/explore/installed/${id}`
   const ref = useRef(null)
   const isHovering = useHover(ref)
+  const { isCurrentWorkspaceManager } = useAppContext()
   return (
     <div
       ref={ref}
@@ -62,15 +64,21 @@ export default function AppNavItem({
             <AppIcon size='tiny' iconType={icon_type} icon={icon} background={icon_background} imageUrl={icon_url} />
             <div className='overflow-hidden text-ellipsis whitespace-nowrap' title={name}>{name}</div>
           </div>
-          <div className='shrink-0 h-6' onClick={e => e.stopPropagation()}>
-            <ItemOperation
-              isPinned={isPinned}
-              isItemHovering={isHovering}
-              togglePin={togglePin}
-              isShowDelete={!uninstallable && !isSelected}
-              onDelete={() => onDelete(id)}
-            />
-          </div>
+          {
+            // 二开部分 - 现在普通成员，在默认空间，也能在侧边栏置顶应用，这样不符合逻辑，加了isCurrentWorkspaceManager的判断
+            isCurrentWorkspaceManager && (
+              <div className='shrink-0 h-6' onClick={e => e.stopPropagation()}>
+                <ItemOperation
+                  isPinned={isPinned}
+                  isItemHovering={isHovering}
+                  togglePin={togglePin}
+                  isShowDelete={!uninstallable && !isSelected}
+                  onDelete={() => onDelete(id)}
+                />
+              </div>
+            )
+            // 二开部分 - 现在普通成员，在默认空间，也能在侧边栏置顶应用，这样不符合逻辑，加了isCurrentWorkspaceManager的判断
+          }
         </>
       )}
     </div>

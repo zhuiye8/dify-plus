@@ -1,19 +1,15 @@
 'use client'
 import type { FC } from 'react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next' // add cancelSyncToAppTemplate to list extend
 import cn from '@/utils/classnames'
-import exploreI18n from '@/i18n/en-US/explore'
-import type { AppCategory } from '@/models/explore'
 import { ThumbsUp } from '@/app/components/base/icons/src/vender/line/alertsAndFeedback'
-
-const categoryI18n = exploreI18n.category
 
 export type ICategoryProps = {
   className?: string
-  list: AppCategory[]
+  list: string[]
   value: string
-  onChange: (value: AppCategory | string) => void
+  onChange: (value: string) => void
   /**
    * default value for search param 'category' in en
    */
@@ -50,7 +46,7 @@ const Category: FC<ICategoryProps> = ({
           className={itemClassName(name === value)}
           onClick={() => onChange(name)}
         >
-          {categoryI18n[name] ? t(`explore.category.${name}`) : name}
+          {name}
         </div>
       ))}
     </div>

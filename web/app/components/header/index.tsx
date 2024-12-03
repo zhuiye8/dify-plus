@@ -11,8 +11,9 @@ import DatasetNav from './dataset-nav'
 import EnvNav from './env-nav'
 import ExploreNav from './explore-nav'
 import ToolsNav from './tools-nav'
-import GithubStar from './github-star'
+// import GithubStar from './github-star'
 import LicenseNav from './license-env'
+import AccountMoneyExtend from './account-money-extend' // 二开部分 - 额度限制
 import { WorkspaceProvider } from '@/context/workspace-context'
 import { useAppContext } from '@/context/app-context'
 import LogoSite from '@/app/components/base/logo/logo-site'
@@ -57,18 +58,20 @@ const Header = () => {
           <Bars3Icon className="h-4 w-4 text-gray-500" />
         </div>}
         {!isMobile && <>
-          <Link href="/apps" className='flex items-center mr-4'>
+          <Link href="/explore/apps-center-extend" className='flex items-center mr-4'>
             <LogoSite className='object-contain' />
           </Link>
-          <GithubStar />
+          {/* <GithubStar /> */}
+          <AccountMoneyExtend />{/*  // 二开部分 - 额度限制 */}
         </>}
       </div>
       {isMobile && (
         <div className='flex'>
-          <Link href="/apps" className='flex items-center mr-4'>
+          <Link href="/explore/apps-center-extend" className='flex items-center mr-4'>
             <LogoSite />
           </Link>
-          <GithubStar />
+          {/* <GithubStar /> */}
+          <AccountMoneyExtend />{/*  // 二开部分 - 额度限制 */}
         </div>
       )}
       {!isMobile && (

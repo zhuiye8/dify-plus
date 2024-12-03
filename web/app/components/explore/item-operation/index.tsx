@@ -67,18 +67,21 @@ const ItemOperation: FC<IItemOperationProps> = ({
           }}
         >
           <div className={cn(s.actionItem, 'hover:bg-gray-50 group')} onClick={togglePin}>
-            <Pin02 className='shrink-0 w-4 h-4 text-gray-500' />
-            <span className={s.actionName}>{isPinned ? t('explore.sidebar.action.unpin') : t('explore.sidebar.action.pin')}</span>
+            <Pin02 className='shrink-0 w-4 h-4 text-gray-500'/>
+            <span className={s.actionName}
+            >{isPinned ? t('explore.sidebar.action.unpin') : t('explore.sidebar.action.pin')}</span>
           </div>
           {isShowRenameConversation && (
             <div className={cn(s.actionItem, 'hover:bg-gray-50 group')} onClick={onRenameConversation}>
-              <RiEditLine className='shrink-0 w-4 h-4 text-gray-500' />
+              <RiEditLine className='shrink-0 w-4 h-4 text-gray-500'/>
               <span className={s.actionName}>{t('explore.sidebar.action.rename')}</span>
             </div>
           )}
           {isShowDelete && (
-            <div className={cn(s.actionItem, s.deleteActionItem, 'hover:bg-gray-50 group')} onClick={onDelete} >
-              <RiDeleteBinLine className={cn(s.deleteActionItemChild, 'shrink-0 w-4 h-4 stroke-current text-gray-500 stroke-2')} />
+            <div className={cn(s.actionItem, s.deleteActionItem, 'hover:bg-gray-50 group')} onClick={onDelete}>
+              <RiDeleteBinLine
+                className={cn(s.deleteActionItemChild, 'shrink-0 w-4 h-4 stroke-current text-gray-500 stroke-2')}
+              />
               <span className={cn(s.actionName, s.deleteActionItemChild)}>{t('explore.sidebar.action.delete')}</span>
             </div>
           )}

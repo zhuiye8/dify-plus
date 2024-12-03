@@ -218,6 +218,7 @@ class WorkflowAverageAppInteractionStatistic(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("start", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
         parser.add_argument("end", type=DatetimeString("%Y-%m-%d %H:%M"), location="args")
+        parser.add_argument("account", type=bool, location="args")  # Extend added a new app personal expenses page
         args = parser.parse_args()
 
         sql_query = """SELECT
@@ -246,6 +247,35 @@ GROUP BY
             "app_id": app_model.id,
             "triggered_from": WorkflowRunTriggeredFrom.APP_RUN.value,
         }
+
+        # Extend Start: added a new app personal expenses page
+        if args.account is not None and args.account:
+            sql_query = """
+                SELECT 
+                    AVG(sub.interactions) as interactions,
+                    sub.date
+                FROM
+                    (SELECT 
+                        date(DATE_TRUNC('day', c.created_at AT TIME ZONE 'UTC' AT TIME ZONE :tz )) AS date, 
+                        c.created_by,
+                        COUNT(c.id) AS interactions
+                    FROM workflow_runs c
+                    WHERE c.app_id = :app_id
+                        AND c.triggered_from = :triggered_from
+                        {{start}}
+                        {{end}}
+                        AND ((c.created_by_role = '' AND c.created_by = :user_id) OR (c.created_by_role = '' AND 
+                        c.created_by IN (SELECT DISTINCT(id) FROM end_users WHERE external_user_id = :user_id)))
+                    GROUP BY date, c.created_by) sub
+                GROUP BY sub.date
+                """
+            arg_dict = {
+                "tz": account.timezone,
+                "app_id": app_model.id,
+                "triggered_from": WorkflowRunTriggeredFrom.APP_RUN.value,
+                "user_id": account.id,
+            }
+        # Extend Stop: added a new app personal expenses page
 
         timezone = pytz.timezone(account.timezone)
         utc_timezone = pytz.utc

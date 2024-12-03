@@ -478,6 +478,12 @@ export const ssePost = (
     signal: abortController.signal,
   }, fetchOptions)
 
+  // ----------------- start You must log in to access your account extend ---------------
+  const token = localStorage.getItem('console_token') || ''
+  if ((url === 'chat-messages' || url === 'completion-messages' || url === 'workflows/run') && token.length > 0)
+    options.headers.set('Authorization-extend', `${token}`)
+  // ----------------- stop You must log in to access your account extend ---------------
+
   const contentType = options.headers.get('Content-Type')
   if (!contentType)
     options.headers.set('Content-Type', ContentType.json)

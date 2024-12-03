@@ -2,7 +2,12 @@ from typing import Optional
 
 from constants.languages import languages
 from extensions.ext_database import db
-from models.model import App, RecommendedApp
+from models.model import (  # extend add category to categories
+    App,
+    RecommendedApp,
+    RecommendedAppsCategoryJoinExtend,
+    RecommendedCategoryExtend,
+)
 from services.app_dsl_service import AppDslService
 from services.recommend_app.recommend_app_base import RecommendAppRetrievalBase
 from services.recommend_app.recommend_app_type import RecommendAppType
@@ -44,10 +49,25 @@ class DatabaseRecommendAppRetrieval(RecommendAppRetrievalBase):
                 .all()
             )
 
+        # -------------- extend start: add category to categories ---------------
+        tag_i = 0
+        class_dick = {}
+        recommended = {}
         categories = set()
         recommended_apps_result = []
+        for item in db.session.query(RecommendedCategoryExtend).all():
+            class_dick[item.id] = item.table
+            categories.add(item.table)
+            tag_i += 1
+        for like in db.session.query(RecommendedAppsCategoryJoinExtend).all():
+            if like.recommended_id in recommended:
+                recommended[like.recommended_id].append(like.category_id)
+            else:
+                recommended[like.recommended_id] = [like.category_id]
         for recommended_app in recommended_apps:
+            classList = []
             app = recommended_app.app
+            description = app.description
             if not app or not app.is_public:
                 continue
 
@@ -55,29 +75,42 @@ class DatabaseRecommendAppRetrieval(RecommendAppRetrievalBase):
             if not site:
                 continue
 
-            recommended_app_result = {
-                "id": recommended_app.id,
-                "app": {
-                    "id": app.id,
-                    "name": app.name,
-                    "mode": app.mode,
-                    "icon": app.icon,
-                    "icon_background": app.icon_background,
-                },
-                "app_id": recommended_app.app_id,
-                "description": site.description,
-                "copyright": site.copyright,
-                "privacy_policy": site.privacy_policy,
-                "custom_disclaimer": site.custom_disclaimer,
-                "category": recommended_app.category,
-                "position": recommended_app.position,
-                "is_listed": recommended_app.is_listed,
-            }
-            recommended_apps_result.append(recommended_app_result)
+            config = app.app_model_config
+            if config is not None and config.pre_prompt is not None and len(config.pre_prompt) > 0:
+                description = config.pre_prompt
+            if recommended_app.id in recommended:
+                classList = recommended[recommended_app.id]
+            if len(classList) == 0:
+                classList.append("")
+            for classId in classList:
+                category = "未分类"
+                if classId in class_dick:
+                    category = class_dick[classId]
+                recommended_app_result = {
+                    "id": recommended_app.id,
+                    "app": {
+                        "id": app.id,
+                        "name": app.name,
+                        "mode": app.mode,
+                        "icon": app.icon,
+                        "icon_background": app.icon_background,
+                    },
+                    "app_id": recommended_app.app_id,
+                    "description": description,
+                    "copyright": site.copyright,
+                    "privacy_policy": site.privacy_policy,
+                    "custom_disclaimer": site.custom_disclaimer,
+                    "category": category,
+                    "position": recommended_app.position,
+                    "is_listed": recommended_app.is_listed,
+                }
+                recommended_apps_result.append(recommended_app_result)
 
-            categories.add(recommended_app.category)
-
-        return {"recommended_apps": recommended_apps_result, "categories": sorted(categories)}
+                categories.add(recommended_app.category)  # add category to categories
+        categories = sorted(categories)
+        categories.append("未分类")
+        return {"recommended_apps": recommended_apps_result, "categories": categories}
+        # -------------- extend stop: add category to categories ---------------
 
     @classmethod
     def fetch_recommended_app_detail_from_db(cls, app_id: str) -> Optional[dict]:

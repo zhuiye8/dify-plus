@@ -21,7 +21,7 @@ if [[ "${MODE}" == "worker" ]]; then
   fi
 
   exec celery -A app.celery worker -P ${CELERY_WORKER_CLASS:-gevent} $CONCURRENCY_OPTION --loglevel ${LOG_LEVEL} \
-    -Q ${CELERY_QUEUES:-dataset,mail,ops_trace,app_deletion}
+    -Q ${CELERY_QUEUES:-dataset,mail,ops_trace,app_deletion,extend_high,extend_low}
 
 elif [[ "${MODE}" == "beat" ]]; then
   exec celery -A app.celery beat --loglevel ${LOG_LEVEL}

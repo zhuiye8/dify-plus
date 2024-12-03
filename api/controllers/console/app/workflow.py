@@ -9,6 +9,7 @@ import services
 from controllers.console import api
 from controllers.console.app.error import ConversationCompletedError, DraftWorkflowNotExist, DraftWorkflowNotSync
 from controllers.console.app.wraps import get_app_model
+from controllers.console.money_extend import money_limit
 from controllers.console.wraps import account_initialization_required, setup_required
 from core.app.apps.base_app_queue_manager import AppQueueManager
 from core.app.entities.app_invoke_entities import InvokeFrom
@@ -168,6 +169,7 @@ class AdvancedChatDraftRunIterationNodeApi(Resource):
     @setup_required
     @login_required
     @account_initialization_required
+    @money_limit
     @get_app_model(mode=[AppMode.ADVANCED_CHAT])
     def post(self, app_model: App, node_id: str):
         """
@@ -236,6 +238,7 @@ class DraftWorkflowRunApi(Resource):
     @setup_required
     @login_required
     @account_initialization_required
+    @money_limit
     @get_app_model(mode=[AppMode.WORKFLOW])
     def post(self, app_model: App):
         """

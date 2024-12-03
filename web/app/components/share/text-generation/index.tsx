@@ -475,6 +475,17 @@ const TextGeneration: FC<IMainProps> = ({
     return cn('fixed z-50 inset-0', isTablet ? 'pl-[128px]' : 'pl-6')
   })()
 
+  // ------------------------ start You must log in to access your account extend ------------------------
+  const consoleToken = searchParams.get('console_token')
+  const consoleTokenFromLocalStorage = localStorage?.getItem('console_token')
+
+  if (!(consoleToken || consoleTokenFromLocalStorage)) {
+    if (window.location !== undefined)
+      localStorage?.setItem('redirect_url', window.location.href)
+    router.replace('/signin')
+  }
+  // ------------------------ end You must log in to access your account extend --------------------------------
+
   const renderResWrap = (
     <div
       ref={resRef}

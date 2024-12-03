@@ -66,6 +66,14 @@ export const deleteApp: Fetcher<CommonResponse, string> = (appID) => {
   return del<CommonResponse>(`apps/${appID}`)
 }
 
+export const syncApp: Fetcher<AppDetailResponse, string> = (appID) => {
+  return put<AppDetailResponse>(`apps/${appID}/sync`)
+}
+
+export const syncCancelApp: Fetcher<CommonResponse, string> = (appID) => {
+  return del<CommonResponse>(`apps/${appID}/sync`)
+}
+
 export const updateAppSiteStatus: Fetcher<AppDetailResponse, { url: string; body: Record<string, any> }> = ({ url, body }) => {
   return post<AppDetailResponse>(url, { body })
 }
@@ -129,8 +137,14 @@ export const delApikey: Fetcher<CommonResponse, { url: string; params: Record<st
 }
 
 export const createApikey: Fetcher<CreateApiKeyResponse, { url: string; body: Record<string, any> }> = ({ url, body }) => {
-  return post<CreateApiKeyResponse>(url, body)
+  return post<CreateApiKeyResponse>(url, { body }) // 二开部分 - 密钥额度限制，body加上{}
 }
+
+// 二开部分 Begin - 密钥额度限制编辑
+export const editApikey: Fetcher<CreateApiKeyResponse, { url: string; body: Record<string, any> }> = ({ url, body }) => {
+  return put<CreateApiKeyResponse>(url, { body }) 
+}
+// 二开部分 End - 密钥额度限制编辑
 
 export const validateOpenAIKey: Fetcher<ValidateOpenAIKeyResponse, { url: string; body: { token: string } }> = ({ url, body }) => {
   return post<ValidateOpenAIKeyResponse>(url, { body })

@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   RiDashboard2Fill,
-  RiDashboard2Line,
+  RiDashboard2Line, RiDashboard3Line,
   RiFileList3Fill,
   RiFileList3Line,
   RiTerminalBoxFill,
@@ -83,12 +83,23 @@ const AppDetailLayout: FC<IAppDetailLayoutProps> = (props) => {
         }]
         : []
       ),
+      ...(isCurrentWorkspaceEditor
+        ? [{
+          name: t('common.appMenus.overview'),
+          href: `/app/${appId}/overview`,
+          icon: RiDashboard2Line,
+          selectedIcon: RiDashboard2Fill,
+        }]
+        : []
+      ),
+      // Extend: Start added a new app personal expenses page
       {
-        name: t('common.appMenus.overview'),
-        href: `/app/${appId}/overview`,
-        icon: RiDashboard2Line,
-        selectedIcon: RiDashboard2Fill,
+        name: t('extend.appMenus.userOverview'),
+        href: `/app/${appId}/user_overview_extend`,
+        icon: RiDashboard3Line,
+        selectedIcon: RiDashboard3Line,
       },
+      // Extend: Stop added a new app personal expenses page
     ]
     return navs
   }, [t])

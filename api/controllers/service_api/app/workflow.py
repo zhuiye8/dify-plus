@@ -25,7 +25,7 @@ from core.model_runtime.errors.invoke import InvokeError
 from extensions.ext_database import db
 from fields.workflow_app_log_fields import workflow_app_log_pagination_fields
 from libs import helper
-from models.model import App, AppMode, EndUser
+from models.model import ApiToken, App, AppMode, EndUser  # 二开部分End - 密钥额度限制，ApiToken
 from models.workflow import WorkflowRun
 from services.app_generate_service import AppGenerateService
 from services.workflow_app_service import WorkflowAppService
@@ -64,7 +64,7 @@ class WorkflowRunDetailApi(Resource):
 
 class WorkflowRunApi(Resource):
     @validate_app_token(fetch_user_arg=FetchUserArg(fetch_from=WhereisUserArg.JSON, required=True))
-    def post(self, app_model: App, end_user: EndUser):
+    def post(self, app_model: App, end_user: EndUser, api_token: ApiToken):  # 二开部分End - 密钥额度限制，api_token
         """
         Run workflow
         """
@@ -77,6 +77,10 @@ class WorkflowRunApi(Resource):
         parser.add_argument("files", type=list, required=False, location="json")
         parser.add_argument("response_mode", type=str, choices=["blocking", "streaming"], location="json")
         args = parser.parse_args()
+
+        # ------------------- 二开部分Begin - 密钥额度限制 -------------------
+        args["api_token"] = api_token
+        # # ------------------- 二开部分End - 密钥额度限制 -------------------
 
         streaming = args.get("response_mode") == "streaming"
 

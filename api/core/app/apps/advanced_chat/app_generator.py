@@ -3,7 +3,7 @@ import logging
 import threading
 import uuid
 from collections.abc import Generator
-from typing import Any, Literal, Optional, Union, overload
+from typing import Any, Literal, Optional, Union, cast, overload  # 二开部分 - 密钥额度限制，新增cast
 
 from flask import Flask, current_app
 from pydantic import ValidationError
@@ -19,14 +19,17 @@ from core.app.apps.advanced_chat.generate_task_pipeline import AdvancedChatAppGe
 from core.app.apps.base_app_queue_manager import AppQueueManager, GenerateTaskStoppedError, PublishFrom
 from core.app.apps.message_based_app_generator import MessageBasedAppGenerator
 from core.app.apps.message_based_app_queue_manager import MessageBasedAppQueueManager
-from core.app.entities.app_invoke_entities import AdvancedChatAppGenerateEntity, InvokeFrom
+from core.app.entities.app_invoke_entities import (
+    AdvancedChatAppGenerateEntity,
+    InvokeFrom,
+)
 from core.app.entities.task_entities import ChatbotAppBlockingResponse, ChatbotAppStreamResponse
 from core.model_runtime.errors.invoke import InvokeAuthorizationError, InvokeError
 from core.ops.ops_trace_manager import TraceQueueManager
 from extensions.ext_database import db
 from factories import file_factory
 from models.account import Account
-from models.model import App, Conversation, EndUser, Message
+from models.model import ApiToken, App, Conversation, EndUser, Message  # 二开部分 - 密钥额度限制，新增ApiToken
 from models.workflow import Workflow
 
 logger = logging.getLogger(__name__)
@@ -85,6 +88,13 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
         inputs = args["inputs"]
 
         extras = {"auto_generate_conversation_name": args.get("auto_generate_name", False)}
+
+        # ------------------- 二开部分Begin - 密钥额度限制 -------------------
+        api_token = args.get("api_token")
+        if api_token:
+            cast(ApiToken, api_token)
+            extras["app_token_id"] = api_token.id
+        # ------------------- 二开部分End - 密钥额度限制 -------------------
 
         # get conversation
         conversation = None

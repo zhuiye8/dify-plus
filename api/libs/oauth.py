@@ -1,8 +1,10 @@
+import logging  # 二开部分，针对oa登录报错问题，记录返回的code
 import urllib.parse
 from dataclasses import dataclass
 from typing import Optional
 
 import requests
+from flask import current_app
 
 
 @dataclass
@@ -131,3 +133,85 @@ class GoogleOAuth(OAuth):
 
     def _transform_user_info(self, raw_info: dict) -> OAuthUserInfo:
         return OAuthUserInfo(id=str(raw_info["sub"]), name=None, email=raw_info["email"])
+
+
+class OaOAuth(OAuth):
+    _AUTH_URL = ""
+    _Host = ""
+    _TOKEN_URL = ""
+    _USER_INFO_URL = ""
+
+    def get_authorization_url(self, invite_token: Optional[str] = None):
+        params = {
+            "client_id": self.client_id,
+            "redirect_uri": self.redirect_uri,
+        }
+        with current_app.app_context():
+            self._Host = current_app.config.get("OAUTH2_CLIENT_URL")
+            self._TOKEN_URL = current_app.config.get("OAUTH2_TOKEN_URL")
+            self._USER_INFO_URL = current_app.config.get("OAUTH2_USER_INFO_URL")
+        return f"{self._Host}{self._AUTH_URL}?{urllib.parse.urlencode(params)}"
+
+    def get_access_token(self, code: str):
+        data = {
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "code": code,
+            "grant_type": "authorization_code",
+            "redirect_uri": self.redirect_uri,
+        }
+        with current_app.app_context():
+            self._Host = current_app.config.get("OAUTH2_CLIENT_URL")
+        headers = {"Accept": "application/json"}
+        response = requests.post(self._Host + self._TOKEN_URL, data=data, headers=headers)
+        response.encoding = "utf-8"
+        if response.status_code != 200:
+            return ""
+        try:
+            response_json = response.json()
+        except:
+            return ""
+        access_token = response_json.get("access_token")
+
+        return access_token
+
+    def get_raw_user_info(self, token: str):
+        with current_app.app_context():
+            self._Host = current_app.config.get("OAUTH2_CLIENT_URL")
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(self._Host + self._USER_INFO_URL, headers=headers)
+        response.raise_for_status()
+        return response.json()
+
+    def _transform_user_info(self, raw_info: dict) -> OAuthUserInfo:
+        # 检查 raw_info 是否为空或为 None
+        if not raw_info or not isinstance(raw_info, dict):
+            return OAuthUserInfo(
+                id="",
+                name="",
+                email="",
+            )
+
+        # 如果data为空说明报错了
+        data = raw_info.get("data")
+        if data == {} or data is None or not isinstance(data, dict):
+            code = raw_info.get("code", "")
+            msg = raw_info.get("info", "")
+            logging.info(f"raw_info {raw_info}")
+            return OAuthUserInfo(
+                id="",
+                name="",
+                email="",
+            )
+
+        username = data.get("username")
+        name = data.get("name")
+        email = data.get("email")
+        if not username:
+            raise ValueError("OA系统返回用户数据格式不正确。请返回进行重新登录。")
+
+        return OAuthUserInfo(
+            id=str(username) if username is not None else None,
+            name=str(name) if name is not None else None,
+            email=str(email) if email is not None else None,
+        )

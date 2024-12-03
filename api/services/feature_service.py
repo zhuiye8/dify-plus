@@ -64,6 +64,7 @@ class SystemFeatureModel(BaseModel):
     is_allow_register: bool = False
     is_allow_create_workspace: bool = False
     license: LicenseModel = LicenseModel()
+    is_custom_auth2: str = ""  # extend: Customizing AUTH2
 
 
 class FeatureService:
@@ -98,6 +99,9 @@ class FeatureService:
         system_features.enable_social_oauth_login = dify_config.ENABLE_SOCIAL_OAUTH_LOGIN
         system_features.is_allow_register = dify_config.ALLOW_REGISTER
         system_features.is_allow_create_workspace = dify_config.ALLOW_CREATE_WORKSPACE
+        # extend start: Customizing AUTH2
+        system_features.is_custom_auth2 = dify_config.OAUTH2_CLIENT_URL
+        # extend stop: Customizing AUTH2
 
     @classmethod
     def _fulfill_params_from_env(cls, features: FeatureModel):

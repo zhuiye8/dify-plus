@@ -24,14 +24,14 @@ const LocaleLayout = ({
   children: React.ReactNode
 }) => {
   const locale = getLocaleOnServer()
-
   return (
     <html lang={locale ?? 'en'} className="h-full" data-theme="light">
       <head>
-        <meta name="theme-color" content="#FFFFFF" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="theme-color" content="#FFFFFF"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+        <script src='//g.alicdn.com/code/npm/@ali/dingtalk-h5-remote-debug/0.1.3/index.js' />
       </head>
       <body
         className="h-full select-auto"

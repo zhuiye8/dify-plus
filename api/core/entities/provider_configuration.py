@@ -226,6 +226,62 @@ class ProviderConfiguration(BaseModel):
 
         return provider_record, credentials
 
+    def custom_credentials_validate_without_validate_extend(self, credentials: dict) -> tuple[Provider, dict]:
+        """
+        Validate custom credentials.
+        :param credentials: provider credentials
+        :return:
+        """
+        # get provider
+        provider_record = (
+            db.session.query(Provider)
+            .filter(
+                Provider.tenant_id == self.tenant_id,
+                Provider.provider_name == self.provider.provider,
+                Provider.provider_type == ProviderType.CUSTOM.value,
+            )
+            .first()
+        )
+
+        # Get provider credential secret variables
+        provider_credential_secret_variables = self.extract_secret_variables(
+            self.provider.provider_credential_schema.credential_form_schemas
+            if self.provider.provider_credential_schema
+            else []
+        )
+
+        if provider_record:
+            try:
+                # fix origin data
+                if provider_record.encrypted_config:
+                    if not provider_record.encrypted_config.startswith("{"):
+                        original_credentials = {"openai_api_key": provider_record.encrypted_config}
+                    else:
+                        original_credentials = json.loads(provider_record.encrypted_config)
+                else:
+                    original_credentials = {}
+            except JSONDecodeError:
+                original_credentials = {}
+
+            # encrypt credentials
+            for key, value in credentials.items():
+                if key in provider_credential_secret_variables:
+                    # if send [__HIDDEN__] in secret input, it will be same as original value
+                    if value == HIDDEN_VALUE and key in original_credentials:
+                        credentials[key] = encrypter.decrypt_token(self.tenant_id, original_credentials[key])
+
+        # 模型同步至工作区间，说明该模型已经是验证过的，无需在这里还要验证
+        # credentials = model_provider_factory.provider_credentials_validate(
+        #     provider=self.provider.provider,
+        #     credentials=credentials
+        # )
+
+        for key, value in credentials.items():
+            if key in provider_credential_secret_variables:
+                credentials[key] = encrypter.encrypt_token(self.tenant_id, value)
+
+        return provider_record, credentials
+
     def add_or_update_custom_credentials(self, credentials: dict) -> None:
         """
         Add or update custom provider credentials.
@@ -260,6 +316,43 @@ class ProviderConfiguration(BaseModel):
         provider_model_credentials_cache.delete()
 
         self.switch_preferred_provider_type(ProviderType.CUSTOM)
+
+    def add_or_update_custom_credentials_without_validate_extend(self, credentials: dict) -> None:
+        """
+        Add or update custom provider credentials.
+        :param credentials:
+        :return:
+        """
+        # validate custom provider config
+        provider_record, credentials = self.custom_credentials_validate_without_validate_extend(credentials)
+
+        # save provider
+        # Note: Do not switch the preferred provider, which allows users to use quotas first
+        if provider_record:
+            provider_record.encrypted_config = json.dumps(credentials)
+            provider_record.is_valid = True
+            provider_record.updated_at = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+            db.session.commit()
+        else:
+            provider_record = Provider(
+                tenant_id=self.tenant_id,
+                provider_name=self.provider.provider,
+                provider_type=ProviderType.CUSTOM.value,
+                encrypted_config=json.dumps(credentials),
+                is_valid=True,
+            )
+            db.session.add(provider_record)
+            db.session.commit()
+
+        provider_model_credentials_cache = ProviderCredentialsCache(
+            tenant_id=self.tenant_id, identity_id=provider_record.id, cache_type=ProviderCredentialsCacheType.PROVIDER
+        )
+
+        provider_model_credentials_cache.delete()
+
+        self.switch_preferred_provider_type(ProviderType.CUSTOM)
+
+        return provider_record.id
 
     def delete_custom_credentials(self) -> None:
         """
@@ -415,6 +508,110 @@ class ProviderConfiguration(BaseModel):
         )
 
         provider_model_credentials_cache.delete()
+
+    def custom_model_credentials_without_validate_extend(
+        self, model_type: ModelType, model: str, credentials: dict
+    ) -> tuple[ProviderModel, dict]:
+        """
+        Validate custom model credentials.
+
+        :param model_type: model type
+        :param model: model name
+        :param credentials: model credentials
+        :return:
+        """
+        # get provider model
+        provider_model_record = (
+            db.session.query(ProviderModel)
+            .filter(
+                ProviderModel.tenant_id == self.tenant_id,
+                ProviderModel.provider_name == self.provider.provider,
+                ProviderModel.model_name == model,
+                ProviderModel.model_type == model_type.to_origin_model_type(),
+            )
+            .first()
+        )
+
+        # Get provider credential secret variables
+        provider_credential_secret_variables = self.extract_secret_variables(
+            self.provider.model_credential_schema.credential_form_schemas
+            if self.provider.model_credential_schema
+            else []
+        )
+
+        if provider_model_record:
+            try:
+                original_credentials = (
+                    json.loads(provider_model_record.encrypted_config) if provider_model_record.encrypted_config else {}
+                )
+            except JSONDecodeError:
+                original_credentials = {}
+
+            # decrypt credentials
+            for key, value in credentials.items():
+                if key in provider_credential_secret_variables:
+                    # if send [__HIDDEN__] in secret input, it will be same as original value
+                    if value == HIDDEN_VALUE and key in original_credentials:
+                        credentials[key] = encrypter.decrypt_token(self.tenant_id, original_credentials[key])
+
+        # 模型同步至工作区间，说明该模型已经是验证过的，无需在这里还要验证
+        # credentials = model_provider_factory.model_credentials_validate(
+        #     provider=self.provider.provider,
+        #     model_type=model_type,
+        #     model=model,
+        #     credentials=credentials
+        # )
+
+        for key, value in credentials.items():
+            if key in provider_credential_secret_variables:
+                credentials[key] = encrypter.encrypt_token(self.tenant_id, value)
+
+        return provider_model_record, credentials
+
+    def add_or_update_custom_model_credentials_without_validate_extend(
+        self, model_type: ModelType, model: str, credentials: dict
+    ) -> str:
+        """
+        Add or update custom model credentials.
+
+        :param model_type: model type
+        :param model: model name
+        :param credentials: model credentials
+        :return:
+        """
+        # validate custom model config
+        provider_model_record, credentials = self.custom_model_credentials_without_validate_extend(
+            model_type, model, credentials
+        )
+
+        # save provider model
+        # Note: Do not switch the preferred provider, which allows users to use quotas first
+        if provider_model_record:
+            provider_model_record.encrypted_config = json.dumps(credentials)
+            provider_model_record.is_valid = True
+            provider_model_record.updated_at = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+            db.session.commit()
+        else:
+            provider_model_record = ProviderModel(
+                tenant_id=self.tenant_id,
+                provider_name=self.provider.provider,
+                model_name=model,
+                model_type=model_type.to_origin_model_type(),
+                encrypted_config=json.dumps(credentials),
+                is_valid=True,
+            )
+            db.session.add(provider_model_record)
+            db.session.commit()
+
+        provider_model_credentials_cache = ProviderCredentialsCache(
+            tenant_id=self.tenant_id,
+            identity_id=provider_model_record.id,
+            cache_type=ProviderCredentialsCacheType.MODEL,
+        )
+
+        provider_model_credentials_cache.delete()
+
+        return provider_model_record.id
 
     def delete_custom_model_credentials(self, model_type: ModelType, model: str) -> None:
         """

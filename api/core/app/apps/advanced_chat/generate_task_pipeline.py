@@ -55,8 +55,9 @@ from core.workflow.graph_engine.entities.graph_runtime_state import GraphRuntime
 from core.workflow.nodes import NodeType
 from events.message_event import message_was_created
 from extensions.ext_database import db
-from models import Conversation, EndUser, Message, MessageFile
+from models import AppMode, Conversation, EndUser, Message, MessageFile  # 二开部分End - 密钥额度限制，新增AppMode
 from models.account import Account
+from models.api_token_money_extend import ApiTokenMessageJoinsExtend  # 二开部分End - 密钥额度限制
 from models.enums import CreatedByRole
 from models.workflow import (
     Workflow,
@@ -275,6 +276,15 @@ class AdvancedChatAppGenerateTaskPipeline(BasedGenerateTaskPipeline, WorkflowCyc
 
                 # init workflow run
                 workflow_run = self._handle_workflow_run_start()
+
+                self._refetch_message()
+                # ------------------- 二开部分Begin - 密钥额度限制 -------------------
+                app_token_id = self._application_generate_entity.extras.get("app_token_id")
+                if app_token_id:
+                    ApiTokenMessageJoinsExtend(
+                        app_token_id=app_token_id, record_id=workflow_run.id, app_mode=AppMode.ADVANCED_CHAT.value
+                    ).add_app_token_record_id()
+                # ------------------- 二开部分End - 密钥额度限制 -------------------
 
                 self._refetch_message()
                 self._message.workflow_run_id = workflow_run.id

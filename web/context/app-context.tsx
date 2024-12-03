@@ -66,6 +66,10 @@ const AppContext = createContext<AppContextValue>({
     email: '',
     avatar: '',
     is_password_set: false,
+    // ----------------------- 二开部分Start 添加用户权限 - --------------------------------
+    admin_extend: false,
+    tenant_extend: false,
+    // ----------------------- 二开部分Stop 添加用户权限 - --------------------------------
   },
   currentWorkspace: initialWorkspaceInfo,
   isCurrentWorkspaceManager: false,
@@ -106,15 +110,19 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
   const isCurrentWorkspaceEditor = useMemo(() => ['owner', 'admin', 'editor'].includes(currentWorkspace.role), [currentWorkspace.role])
   const isCurrentWorkspaceDatasetOperator = useMemo(() => currentWorkspace.role === 'dataset_operator', [currentWorkspace.role])
   const updateUserProfileAndVersion = useCallback(async () => {
-    if (userProfileResponse && !userProfileResponse.bodyUsed) {
+    if (userProfileResponse && currentWorkspaceResponse && !userProfileResponse.bodyUsed) {
       const result = await userProfileResponse.json()
+      // ----------------------- 二开部分Start 添加用户权限 - ----------------------
+      result.admin_extend = currentWorkspaceResponse?.admin_extend || false
+      result.tenant_extend = currentWorkspaceResponse?.tenant_extend || false
+      // # ----------------------- 二开部分Start 添加用户权限 - ----------------------
       setUserProfile(result)
       const current_version = userProfileResponse.headers.get('x-version')
       const current_env = process.env.NODE_ENV === 'development' ? 'DEVELOPMENT' : userProfileResponse.headers.get('x-env')
       const versionData = await fetchLanggeniusVersion({ url: '/version', params: { current_version } })
       setLangeniusVersionInfo({ ...versionData, current_version, latest_version: versionData.version, current_env })
     }
-  }, [userProfileResponse])
+  }, [userProfileResponse, currentWorkspaceResponse])
 
   useEffect(() => {
     updateUserProfileAndVersion()

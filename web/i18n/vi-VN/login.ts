@@ -25,6 +25,7 @@ const translation = {
   reset: 'Vui lòng chạy lệnh sau để đặt lại mật khẩu của bạn',
   withGitHub: 'Tiếp tục với GitHub',
   withGoogle: 'Tiếp tục với Google',
+  withOauth2: 'Tiếp tục với OA', // 二开部分，新增oa登录
   rightTitle: 'Khai phá tiềm năng tối đa của LLM',
   rightDesc: 'Dễ dàng xây dựng ứng dụng AI hấp dẫn, có thể vận hành và cải thiện được.',
   tos: 'Điều khoản dịch vụ',

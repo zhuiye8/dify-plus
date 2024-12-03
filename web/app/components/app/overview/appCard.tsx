@@ -211,7 +211,7 @@ function AppCard({
           </div>
         </div>
         <div className={'pt-2 flex flex-row items-center flex-wrap gap-y-2'}>
-          {!isApp && <SecretKeyButton className='flex-shrink-0 !h-8 bg-white mr-2' textCls='!text-gray-700 font-medium' iconCls='stroke-[1.2px]' appId={appInfo.id} />}
+          {!isApp && isCurrentWorkspaceManager && <SecretKeyButton className='flex-shrink-0 !h-8 bg-white mr-2' textCls='!text-gray-700 font-medium' iconCls='stroke-[1.2px]' appId={appInfo.id} />} {/* 二开部分 - 非管理员隐藏 API密钥按钮 */}
           {OPERATIONS_MAP[cardType].map((op) => {
             const disabled
               = op.opName === t('appOverview.overview.appInfo.settings.entry')

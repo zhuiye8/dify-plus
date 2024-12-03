@@ -11,10 +11,11 @@ export type AppBasicInfo = {
   use_icon_as_answer_icon: boolean
 }
 
-export type AppCategory = 'Writing' | 'Translate' | 'HR' | 'Programming' | 'Assistant'
+export type AppCategory = 'Writing' | 'Translate' | 'HR' | 'Programming' | 'Assistant' | '未分类'
 
 export type App = {
   app: AppBasicInfo
+  installed_id: string
   app_id: string
   description: string
   copyright: string

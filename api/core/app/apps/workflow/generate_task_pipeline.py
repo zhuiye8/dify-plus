@@ -47,7 +47,8 @@ from core.ops.ops_trace_manager import TraceQueueManager
 from core.workflow.enums import SystemVariableKey
 from extensions.ext_database import db
 from models.account import Account
-from models.model import EndUser
+from models.api_token_money_extend import ApiTokenMessageJoinsExtend  # 二开部分End - 密钥额度限制
+from models.model import AppMode, EndUser  # 二开部分End - 密钥额度限制，新增AppMode
 from models.workflow import (
     Workflow,
     WorkflowAppLog,
@@ -248,6 +249,15 @@ class WorkflowAppGenerateTaskPipeline(BasedGenerateTaskPipeline, WorkflowCycleMa
 
                 # init workflow run
                 workflow_run = self._handle_workflow_run_start()
+
+                # ------------------- 二开部分Begin - 密钥额度限制 -------------------
+                app_token_id = self._application_generate_entity.extras.get("app_token_id")
+                if app_token_id:
+                    ApiTokenMessageJoinsExtend(
+                        app_token_id=app_token_id, record_id=workflow_run.id, app_mode=AppMode.WORKFLOW.value
+                    ).add_app_token_record_id()
+                # ------------------- 二开部分End - 密钥额度限制 -------------------
+
                 yield self._workflow_start_to_stream_response(
                     task_id=self._application_generate_entity.task_id, workflow_run=workflow_run
                 )

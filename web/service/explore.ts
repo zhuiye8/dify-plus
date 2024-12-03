@@ -8,6 +8,15 @@ export const fetchAppList = () => {
   }>('/explore/apps')
 }
 
+// -------------- start: fetch Open Installed App List ---------------
+export const fetchOpenInstalledAppList = () => {
+  return get<{
+    categories: AppCategory[]
+    recommended_apps: App[]
+  }>('/installed/apps')
+}
+// -------------- stop: fetch Open Installed App List ---------------
+
 export const fetchAppDetail = (id: string): Promise<any> => {
   return get(`/explore/apps/${id}`)
 }

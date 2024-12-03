@@ -4,6 +4,7 @@ import {
   useState,
 } from 'react'
 import { useAsyncEffect } from 'ahooks'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useThemeContext } from '../embedded-chatbot/theme/theme-context'
 import {
   ChatWithHistoryContext,
@@ -188,6 +189,8 @@ const ChatWithHistoryWrapWithCheckToken: FC<ChatWithHistoryWrapProps> = ({
   installedAppInfo,
   className,
 }) => {
+  const router = useRouter() // start You must log in to access your account extend
+  const searchParams = useSearchParams() // start You must log in to access your account extend
   const [initialized, setInitialized] = useState(false)
   const [appUnavailable, setAppUnavailable] = useState<boolean>(false)
   const [isUnknownReason, setIsUnknownReason] = useState<boolean>(false)
@@ -211,6 +214,18 @@ const ChatWithHistoryWrapWithCheckToken: FC<ChatWithHistoryWrapProps> = ({
       setInitialized(true)
     }
   }, [])
+
+  // ------------------------ start You must log in to access your account extend ------------------------
+  const consoleToken = searchParams.get('console_token')
+  const consoleTokenFromLocalStorage = localStorage?.getItem('console_token')
+
+  if (!(consoleToken || consoleTokenFromLocalStorage)) {
+    if (window.location !== undefined)
+      localStorage?.setItem('redirect_url', window.location.href)
+    router.replace('/signin')
+    return null
+  }
+  // ------------------------ end You must log in to access your account extend ------------------------
 
   if (!initialized)
     return null

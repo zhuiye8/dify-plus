@@ -30,6 +30,7 @@ export type SystemFeatures = {
   is_allow_create_workspace: boolean
   is_allow_register: boolean
   license: License
+  is_custom_auth2: '' // extend: Customizing AUTH2
 }
 
 export const defaultSystemFeatures: SystemFeatures = {
@@ -47,4 +48,5 @@ export const defaultSystemFeatures: SystemFeatures = {
     status: LicenseStatus.NONE,
     expired_at: '',
   },
+  is_custom_auth2: '', // extend: Customizing AUTH2
 }

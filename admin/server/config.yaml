@@ -1,0 +1,71 @@
+gaia:
+    url: http://127.0.0.1:5001
+    login_max_error_limit: 5
+    SUPER_ADMIN_ACCOUNT_ID:
+    SUPER_ADMIN_TENANT_ID:
+captcha:
+    key-long: 6
+    img-width: 240
+    img-height: 80
+    open-captcha: 0
+    open-captcha-timeout: 3600
+jwt:
+    signing-key: Qicc4wft7CF6J6AFXetFTvbxqOPGS+RqNlBTNPtt8mVMT1BHEy0SxZQL
+    expires-time: 1d
+    buffer-time: 1d
+    issuer: CLOUD
+local:
+    path: uploads/file
+    store-path: uploads/file
+oa-login:
+    url:
+    oauth2-client-id:
+    oauth2-client-secret:
+    get-user-info-api-path:
+    get-token-by-code-api-path:
+pgsql:
+    prefix: ""
+    port: "5432"
+    config: sslmode=disable TimeZone=Asia/Shanghai
+    db-name: dify_plus
+    username: postgres
+    password: difyai123456
+    path: 127.0.0.1
+    engine: ""
+    log-mode: error
+    max-idle-conns: 10
+    max-open-conns: 100
+    singular: false
+    log-zap: false
+redis:
+    name: ""
+    addr: 127.0.0.1:6379
+    password: difyai123456
+    db: 8
+    useCluster: false
+    clusterAddrs:
+        - 172.21.0.3:7000
+        - 172.21.0.4:7001
+        - 172.21.0.2:7002
+system:
+    db-type: pgsql
+    oss-type: local
+    router-prefix: ""
+    addr: 8888
+    iplimit-count: 15000
+    iplimit-time: 3600
+    use-multipoint: false
+    use-redis: true
+    use-mongo: false
+    use-strict-auth: false
+    user_default-group-id: "888"
+zap:
+    level: info
+    prefix: '[gaia/server]'
+    format: json
+    director: log
+    encode-level: LowercaseColorLevelEncoder
+    stacktrace-key: stacktrace
+    show-line: true
+    log-in-console: true
+    retention-day: -1

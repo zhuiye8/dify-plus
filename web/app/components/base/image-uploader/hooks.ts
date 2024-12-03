@@ -183,9 +183,10 @@ type useClipboardUploaderProps = {
   files: ImageFile[]
   visionConfig?: VisionSettings
   onUpload: (imageFile: ImageFile) => void
+  onUpdateText: (text: string) => void // Extend: Office pictures and folders are removed
 }
 
-export const useClipboardUploader = ({ visionConfig, onUpload, files }: useClipboardUploaderProps) => {
+export const useClipboardUploader = ({ visionConfig, onUpload, files, onUpdateText }: useClipboardUploaderProps) => {
   const allowLocalUpload = visionConfig?.transfer_methods?.includes(TransferMethod.local_file)
   const disabled = useMemo(() =>
     !visionConfig
@@ -197,11 +198,21 @@ export const useClipboardUploader = ({ visionConfig, onUpload, files }: useClipb
   const { handleLocalFileUpload } = useLocalFileUploader({ limit, onUpload, disabled })
 
   const handleClipboardPaste = useCallback((e: ClipboardEvent<HTMLTextAreaElement>) => {
+    const clipboardData = e.clipboardData
     // reserve native text copy behavior
     const file = e.clipboardData?.files[0]
     // when copied file, prevent default action
     if (file) {
       e.preventDefault()
+      // ----------- Extend: Office pictures and folders are removed -----------
+      // Check if there is text data in the clipboard
+      const text = clipboardData.getData('text')
+      if (text !== '') {
+        e.preventDefault()
+        onUpdateText(text)
+        return
+      }
+      // ----------- Extend: Office pictures and folders are removed -----------
       handleLocalFileUpload(file)
     }
   }, [handleLocalFileUpload])

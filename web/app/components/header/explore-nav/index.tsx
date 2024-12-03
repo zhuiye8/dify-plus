@@ -20,7 +20,7 @@ const ExploreNav = ({
   const activated = selectedSegment === 'explore'
 
   return (
-    <Link href="/explore/apps" className={classNames(
+    <Link href="/explore/apps-center-extend" className={classNames(
       className, 'group',
       activated && 'bg-components-main-nav-nav-button-bg-active shadow-md',
       activated ? 'text-components-main-nav-nav-button-text-active' : 'text-components-main-nav-nav-button-text hover:bg-components-main-nav-nav-button-bg-hover',
