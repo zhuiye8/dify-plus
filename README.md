@@ -43,6 +43,49 @@ Dify-Plus，该名字不是说比 Dify 项目牛的意思，意思是想说比 D
 4.  用户额度修改
 5.  费用报表
 
+## 部分功能页面展示截图
+
+1. 应用中心
+
+   ![应用中心.jpg](images/dify-plus/应用中心.jpg)
+
+1. API密钥列表
+
+   ![API密钥列表.png](images/dify-plus/API密钥列表.png)
+
+1. 创建API密钥
+
+   ![创建API密钥.jpg](images/dify-plus/创建API密钥.jpg)
+
+1. 用户额度显示
+
+   ![用户额度显示.jpg](images/dify-plus/用户额度显示.jpg)
+
+1. 同步至应用模版
+
+   ![同步至应用模版.jpg](images/dify-plus/同步至应用模版.jpg)
+
+1. API调用测试
+
+   ![API调用测试.jpg](images/dify-plus/API调用测试.jpg)
+
+1. 个人额度修改
+
+   ![个人额度修改.jpg](images/dify-plus/个人额度修改.jpg)
+
+1. 费用报表
+
+   ![费用报表.jpg.png](images/dify-plus/费用报表.png)
+
+1. 密钥使用分析
+
+   ![密钥使用分析.jpg](images/dify-plus/密钥使用分析.jpg)
+
+1. 每月密钥额度花费
+
+   ![每月密钥额度花费.jpg](images/dify-plus/每月密钥额度花费.jpg)
+
+
 ## 版本更新说明
 
 1. 会持续跟随 gin-vue-admin 和 Dify 两个开源项目的版本，合并最新代码，最多不超过 1 天。
