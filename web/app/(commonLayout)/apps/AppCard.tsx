@@ -9,7 +9,7 @@ import s from './style.module.css'
 import cn from '@/utils/classnames'
 import type { App } from '@/types/app'
 import Confirm from '@/app/components/base/confirm'
-import { ToastContext } from '@/app/components/base/toast'
+import Toast, { ToastContext } from '@/app/components/base/toast'
 import { copyApp, deleteApp, exportAppConfig, syncApp, syncCancelApp, updateAppInfo } from '@/service/apps'
 import DuplicateAppModal from '@/app/components/app/duplicate-modal'
 import type { DuplicateAppModalProps } from '@/app/components/app/duplicate-modal'
@@ -31,6 +31,7 @@ import TagSelector from '@/app/components/base/tag-management/selector'
 import type { EnvironmentVariable } from '@/app/components/workflow/types'
 import DSLExportConfirmModal from '@/app/components/workflow/dsl-export-confirm-modal'
 import { fetchWorkflowDraft } from '@/service/workflow'
+import { fetchInstalledAppList } from '@/service/explore'
 
 export type AppCardProps = {
   app: App
@@ -253,6 +254,21 @@ const AppCard = ({ app, onRefresh, onApp }: AppCardProps) => {
       e.preventDefault()
       setShowConfirmDelete(true)
     }
+    const onClickInstalledApp = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+      props.onClick?.()
+      e.preventDefault()
+      try {
+        const { installed_apps }: any = await fetchInstalledAppList(app.id) || {}
+        if (installed_apps?.length > 0)
+          window.open(`/explore/installed/${installed_apps[0].id}`, '_blank')
+        else
+          throw new Error('No app found in Explore')
+      }
+      catch (e: any) {
+        Toast.notify({ type: 'error', message: `${e.message || e}` })
+      }
+    }
     // ----------------------start SyncToAppTemplate----------------------
     // Synchronize to exploration list
     const onClickSyncToAppTemplate = async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -291,6 +307,10 @@ const AppCard = ({ app, onRefresh, onApp }: AppCardProps) => {
             </div>
           </>
         )}
+        <Divider className="!my-1" />
+        <button className={s.actionItem} onClick={onClickInstalledApp}>
+          <span className={s.actionName}>{t('app.openInExplore')}</span>
+        </button>
         {/* <>------start SyncToAppTemplate-------</> */}
         {(userProfile.admin_extend && userProfile.tenant_extend && !onApp) && (
           <>
@@ -436,10 +456,10 @@ const AppCard = ({ app, onRefresh, onApp }: AppCardProps) => {
                   }
                   popupClassName={
                     (app.mode === 'completion' || app.mode === 'chat')
-                      ? '!w-[238px] translate-x-[-110px]'
-                      : ''
+                      ? '!w-[256px] translate-x-[-224px]'
+                      : '!w-[160px] translate-x-[-128px]'
                   }
-                  className={'!w-[128px] h-fit !z-20'}
+                  className={'h-fit !z-20'}
                 />
               </div>
             </>
