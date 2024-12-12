@@ -103,61 +103,105 @@ Dify-Plus，该名字不是说比 Dify 项目牛的意思，意思是想说比 D
 
 #### 语言版本
 
-*   python 版本：3.11 or 3.12
-*   node 版本：>=18.17.0
-*   golang 版本：1.22.0
+*   Python 版本：3.11 or 3.12
+*   Node 版本：>=18.17.0
+*   Golang 版本：>=1.22.0
 
 #### 基础服务
 
 *   Redis
-
-*   pgSQL
+*   PostgreSQL
 
 ### 2. 启动步骤
-#### 启动 api 服务
-
+#### 启动 Dify API 服务
 ```shell
-dev/sync-poetry
+# 1. 进入api目录
 cd api
+# 2. 复制环境变量配置文件
+cp .env.example .env
+# 3. 生成随机密钥，并替换 .env 中 SECRET_KEY 的值
+awk -v key="$(openssl rand -base64 42)" '/^SECRET_KEY=/ {sub(/=.*/, "=" key)} 1' .env > temp_env && mv temp_env .env
+# 4. 安装依赖包
+poetry env use 3.11
+poetry install
+# 5. 执行数据库迁移
+poetry shell
 flask db upgrade
+# 6. 启动API服务
 flask run --host 0.0.0.0 --port=5001 --debug
 ```
+> 详见：https://docs.dify.ai/zh-hans/getting-started/install-self-hosted/local-source-code#fu-wu-duan-bu-shu
 
-#### 启动 web 服务
-
+#### 启动 Dify Web 服务
 ```shell
+#1. 进入 web 目录
 cd web
-yarn install
-yarn run dev
+#2. 安装依赖包
+npm install
+#3. 复制环境变量配置文件
+cp .env.example .env.local
+#4. 根据需求配置环境变量
+vim .env.local
+#5. 构建代码
+npm run build
+#6. 启动 web 服务
+npm run start
+# or
+yarn start
+# or
+pnpm start
 ```
+> 详见：https://docs.dify.ai/zh-hans/getting-started/install-self-hosted/local-source-code#qian-duan-ye-mian-bu-shu
 
-#### 启动 worker 服务
-
+#### 启动 Dify Worker 服务
 ```shell
-celery -A app.celery worker -P gevent -c 1 -Q -dataset,mail,ops_trace,app_deletion,extend_high,extend_low --loglevel INFO 
+# Linux / MacOS 启动
+celery -A app.celery worker -P gevent -c 1 -Q dataset,generation,mail,ops_trace,extend_high,extend_low --loglevel INFO
+# or Windows 启动
+celery -A app.celery worker -P solo --without-gossip --without-mingle -Q dataset,generation,mail,ops_trace,extend_high,extend_low --loglevel INFO
 ```
+**说明**：这里比 Dify 项目多新增了两个队列：extend_high（处理二开高频任务）,extend_low（处理二开低频任务）
 
-#### 启动 beat 服务
+#### 启动 Dify Beat 服务
 
 ```shell
 celery -A app.celery beat --loglevel INFO 
 ```
 
-#### 启动 admin-web 服务
+#### 启动 Admin-Web 服务
 
 ```shell
 cd admin/web
 yarn install
-yarn run dev
+yarn run serve
 ```
 
-#### 启动 admin-server 服务
+#### 启动 Admin-Server 服务
 
 ```shell
 cd admin/server
 go mod tidy
 go run main.go
 ```
+
+#### 初始化管理员账号
+- 进入Dify设置管理员账号页面：http://localhost:3000/install
+
+#### 初始化管理中心的数据库表
+- 进入管理中心初始化页面：http://localhost:8081/#/init
+- 填写对应的数据库配置，点击初始化
+
+**注意**：管理中心和 Dify 使用的是同一个数据库
+
+## 相关配置说明
+- Dify 相关配置说明：https://docs.dify.ai/zh-hans/getting-started/install-self-hosted/environments
+- 管理中心 相关配置说明：
+  - 后端：https://gin-vue-admin.com/guide/server/config.html
+  - 前端：https://gin-vue-admin.com/guide/web/env.html
+- Dify-plus 新增环境变量说明
+    ```
+    待补充
+    ```
 
 ## 联系我们
 

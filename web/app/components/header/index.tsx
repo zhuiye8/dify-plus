@@ -63,7 +63,7 @@ const Header = () => {
           <Link href="/explore/apps-center-extend" className='flex items-center mr-4'>
             <LogoSite className='object-contain' />
           </Link>
-          {systemFeatures.license.status === LicenseStatus.NONE && <GithubStar />}
+          {systemFeatures.license.status === LicenseStatus.NONE}
           {/* <GithubStar /> */}
           <AccountMoneyExtend />{/*  // 二开部分 - 额度限制 */}
         </>}
@@ -73,7 +73,7 @@ const Header = () => {
           <Link href="/explore/apps-center-extend" className='flex items-center mr-4'>
             <LogoSite />
           </Link>
-          {systemFeatures.license.status === LicenseStatus.NONE && <GithubStar />}
+          {systemFeatures.license.status === LicenseStatus.NONE}
           {/* <GithubStar /> */}
           <AccountMoneyExtend />{/*  // 二开部分 - 额度限制 */}
         </div>

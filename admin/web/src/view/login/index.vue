@@ -31,61 +31,70 @@
               :validate-on-rule-change="false"
               @keyup.enter="submitForm"
             >
-              <el-form-item
-                prop="username"
-                class="mb-6"
+              <!--  新增是否已经初始化判断 Begin -->
+              <template
+                v-if="showInit"
               >
-                <el-input
-                  v-model="loginFormData.username"
-                  size="large"
-                  placeholder="请输入用户名"
-                  suffix-icon="user"
-                />
-              </el-form-item>
-              <el-form-item
-                prop="password"
-                class="mb-6"
-              >
-                <el-input
-                  v-model="loginFormData.password"
-                  show-password
-                  size="large"
-                  type="password"
-                  placeholder="请输入密码"
-                />
-              </el-form-item>
-              <el-form-item
-                v-if="loginFormData.openCaptcha"
-                prop="captcha"
-                class="mb-6"
-              >
-                <div class="flex w-full justify-between">
+                <el-form-item
+                  prop="username"
+                  class="mb-6"
+                >
                   <el-input
-                    v-model="loginFormData.captcha"
-                    placeholder="请输入验证码"
+                    v-model="loginFormData.username"
                     size="large"
-                    class="flex-1 mr-5"
+                    placeholder="请输入用户名"
+                    suffix-icon="user"
                   />
-                  <div class="w-1/3 h-11 bg-[#c3d4f2] rounded">
-                    <img
-                      v-if="picPath"
-                      class="w-full h-full"
-                      :src="picPath"
-                      alt="请输入验证码"
-                      @click="loginVerify()"
-                    >
+                </el-form-item>
+                <el-form-item
+                  prop="password"
+                  class="mb-6"
+                >
+                  <el-input
+                    v-model="loginFormData.password"
+                    show-password
+                    size="large"
+                    type="password"
+                    placeholder="请输入密码"
+                  />
+                </el-form-item>
+                <el-form-item
+                  v-if="loginFormData.openCaptcha"
+                  prop="captcha"
+                  class="mb-6"
+                >
+                  <div class="flex w-full justify-between">
+                    <el-input
+                      v-model="loginFormData.captcha"
+                      placeholder="请输入验证码"
+                      size="large"
+                      class="flex-1 mr-5"
+                    />
+                    <div class="w-1/3 h-11 bg-[#c3d4f2] rounded">
+                      <img
+                        v-if="picPath"
+                        class="w-full h-full"
+                        :src="picPath"
+                        alt="请输入验证码"
+                        @click="loginVerify()"
+                      >
+                    </div>
                   </div>
-                </div>
-              </el-form-item>
-              <el-form-item class="mb-6">
-                <el-button
-                  class="shadow shadow-active h-11 w-full"
-                  type="primary"
-                  size="large"
-                  @click="submitForm"
-                >登 录</el-button>
-              </el-form-item>
-              <el-form-item class="mb-6">
+                </el-form-item>
+                <el-form-item class="mb-6">
+                  <el-button
+                    class="shadow shadow-active h-11 w-full"
+                    type="primary"
+                    size="large"
+                    @click="submitForm"
+                  >登 录</el-button>
+                </el-form-item>
+              </template>
+              <!--  新增是否已经初始化判断 End -->
+              <el-form-item
+                v-else
+                class="mb-6"
+              >
                 <el-button
                   class="shadow shadow-active h-11 w-full"
                   type="primary"
@@ -179,6 +188,7 @@ defineOptions({
 })
 
 const router = useRouter()
+const showInit = ref(false)
 // 验证函数
 const checkUsername = (rule, value, callback) => {
   if (value.length < 5) {
@@ -277,6 +287,16 @@ const checkInit = async() => {
     }
   }
 }
+
+// 新增是否已经初始化判断
+const showInitExtend = async() => {
+  const res = await checkDB()
+  if (res.code === 0) {
+    showInit.value = !res.data?.needInit
+  }
+
+}
+showInitExtend()
 
 // 跳转oa登录链接
 const oaLoginJump = () => {
