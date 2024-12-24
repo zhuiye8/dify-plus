@@ -33,11 +33,13 @@ func (h PgsqlInitHandler) WriteConfig(ctx context.Context) error {
 	global.GVA_CONFIG.System.DbType = "pgsql"
 	global.GVA_CONFIG.Pgsql = c
 
-	// TODO 改成拿dify的配置
-	var err error
-	global.GVA_CONFIG.JWT.SigningKey, err = h.GetJwtSigningKeyFormDifyApiEnv()
-	if err != nil {
-		return err
+	// 改成拿dify的配置,如果不是docker运行，则从dify api的.env文件中获取jwt的加密key
+	if !global.GVA_CONFIG.System.DockerRun {
+		var err error
+		global.GVA_CONFIG.JWT.SigningKey, err = h.GetJwtSigningKeyFormDifyApiEnv()
+		if err != nil {
+			return err
+		}
 	}
 	cs := utils.StructToMap(global.GVA_CONFIG)
 	for k, v := range cs {

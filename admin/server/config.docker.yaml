@@ -88,7 +88,7 @@ hua-wei-obs:
     access-key: you-access-key
     secret-key: you-secret-key
 jwt:
-    signing-key: Qicc4wft7CF6J6AFXetFTvbxqOPGS+RqNlBTNPtt8mVMT1BHEy0SxZQL
+    signing-key: sk-9f73s3ljTXVcMT3Blb3ljTqtsKiGHXVcMT3BlbkFJLK7U
     expires-time: 1d
     buffer-time: 1d
     issuer: CLOUD
@@ -103,77 +103,20 @@ minio:
     use-ssl: false
     base-path: ""
     bucket-url: http://host:9000/yourBucketName
-mongo:
-    coll: ""
-    options: ""
-    database: ""
-    username: ""
-    password: ""
-    auth-source: ""
-    min-pool-size: 0
-    max-pool-size: 100
-    socket-timeout-ms: 0
-    connect-timeout-ms: 0
-    is-zap: false
-    hosts:
-        - host: ""
-          port: ""
-mssql:
-    prefix: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    path: ""
-    engine: ""
-    log-mode: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    singular: false
-    log-zap: false
-mysql:
-    prefix: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    path: ""
-    engine: ""
-    log-mode: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    singular: false
-    log-zap: false
 oa-login:
     url:
     oauth2-client-id:
     oauth2-client-secret:
     get-user-info-api-path:
     get-token-by-code-api-path:
-oracle:
-    prefix: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    path: ""
-    engine: ""
-    log-mode: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    singular: false
-    log-zap: false
 pgsql:
     prefix: ""
     port: "5432"
     config: sslmode=disable TimeZone=Asia/Shanghai
-    db-name: dify_plus
-    username: postgres
-    password: difyai123456
-    path: 127.0.0.1
+    db-name:
+    username:
+    password:
+    path:
     engine: ""
     log-mode: error
     max-idle-conns: 10
@@ -190,7 +133,7 @@ qiniu:
     use-cdn-domains: false
 redis:
     name: ""
-    addr: 127.0.0.1:6379
+    addr: redis:6379
     password: difyai123456
     db: 8
     useCluster: false
@@ -198,30 +141,6 @@ redis:
         - 172.21.0.3:7000
         - 172.21.0.4:7001
         - 172.21.0.2:7002
-redis-list:
-    - name: ""
-      addr: 127.0.0.1:6379
-      password: difyai123456
-      db: 8
-      useCluster: false
-      clusterAddrs:
-        - 172.21.0.3:7000
-        - 172.21.0.4:7001
-        - 172.21.0.2:7002
-sqlite:
-    prefix: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    path: ""
-    engine: ""
-    log-mode: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    singular: false
-    log-zap: false
 system:
     db-type: pgsql
     oss-type: local
@@ -234,6 +153,7 @@ system:
     use-mongo: false
     use-strict-auth: false
     user_default-group-id: "888"
+    docker-run: true
 tencent-cos:
     bucket: xxxxx-10005608
     region: ap-shanghai
@@ -243,7 +163,7 @@ tencent-cos:
     path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 zap:
     level: info
-    prefix: '[gaia/server]'
+    prefix: '[dify_plus/admin_server]'
     format: json
     director: log
     encode-level: LowercaseColorLevelEncoder

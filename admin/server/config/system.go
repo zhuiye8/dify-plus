@@ -13,5 +13,6 @@ type System struct {
 	UseStrictAuth bool   `mapstructure:"use-strict-auth" json:"use-strict-auth" yaml:"use-strict-auth"` // 使用树形角色分配模式
 	// Extend: Start Custom Configuration
 	UserDefaultGroupID string `mapstructure:"user_default-group-id" default:"888" json:"user_default-group-id" yaml:"user_default-group-id"` // 用户默认群组id
+	DockerRun          bool   `mapstructure:"docker-run" default:false json:"docker-run" yaml:"docker-run"`                                  // 是否在docker中运行，如果是的话，无需自动生成jwtkey，直接填sk-9f73s3ljTXVcMT3Blb3ljTqtsKiGHXVcMT3BlbkFJLK7U与dify保持一致
 	// Extend: Stop Custom Configuration
 }

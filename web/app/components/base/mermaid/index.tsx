@@ -4,7 +4,6 @@ import { usePrevious } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import type { Property } from 'csstype' // Markdown embedded images support click-to-zoom, providing users with a better user experience
-import cn from 'classnames' // Markdown embedded images support click-to-zoom, providing users with a better user experience
 import s from './modal.module.css' // Markdown embedded images support click-to-zoom, providing users with a better user experience
 import LoadingAnim from '@/app/components/base/chat/chat/loading-anim'
 import cn from '@/utils/classnames'
