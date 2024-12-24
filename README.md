@@ -204,8 +204,12 @@ go run main.go
     ```
 
 ## 联系我们
-
+### email
 toxingwang@gmail.com
+
+### 微信交流群
+<img width="120" alt="image" src="https://github.com/user-attachments/assets/53a62f0d-25e3-41bd-a739-26ac8fe11f9d" />
+
 
 ## License
 
