@@ -390,7 +390,7 @@ x-shared-env: &shared-api-worker-env
 services:
   # API service
   api:
-    image: dify-plus-api:0.0.3
+    image: famousmai/dify-plus-api:0.0.3
 #    build:
 #      context: ../api
 #      dockerfile: ./Dockerfile
@@ -416,7 +416,10 @@ services:
   # worker service
   # The Celery worker for processing the queue.
   worker:
-    image: famousmai/dify-plus-api:0.0.2
+    image: famousmai/dify-plus-api:0.0.3
+#    build:
+#      context: ../api
+#      dockerfile: ./Dockerfile
     restart: always
     environment:
       # Use the shared environment variables.
@@ -438,7 +441,7 @@ services:
 
   # Frontend web application.
   web:
-    image: dify-plus-web:0.0.3
+    image: famousmai/dify-plus-web:0.0.3
 #    build:
 #      context: ../web
 #      dockerfile: ./Dockerfile
