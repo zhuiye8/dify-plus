@@ -34,7 +34,7 @@ const LocaleLayout = ({
         <script src='//g.alicdn.com/code/npm/@ali/dingtalk-h5-remote-debug/0.1.3/index.js' />
       </head>
       <body
-        className="h-full select-auto"
+        className="h-full select-auto color-scheme"
         data-api-prefix={process.env.NEXT_PUBLIC_API_PREFIX}
         data-pubic-api-prefix={process.env.NEXT_PUBLIC_PUBLIC_API_PREFIX}
         data-public-edition={process.env.NEXT_PUBLIC_EDITION}

@@ -11,11 +11,11 @@ export type AppBasicInfo = {
   use_icon_as_answer_icon: boolean
 }
 
-export type AppCategory = 'Writing' | 'Translate' | 'HR' | 'Programming' | 'Assistant' | '未分类'
+export type AppCategory = 'Writing' | 'Translate' | 'HR' | 'Programming' | 'Assistant' | 'Agent' | 'Recommended' | 'Workflow'| '未分类' // 二开部分，新增未分类
 
 export type App = {
   app: AppBasicInfo
-  installed_id: string
+  installed_id: string // 二开部分 新增 installed_id
   app_id: string
   description: string
   copyright: string

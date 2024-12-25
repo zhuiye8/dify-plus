@@ -88,13 +88,7 @@ class DatabaseRecommendAppRetrieval(RecommendAppRetrievalBase):
                     category = class_dick[classId]
                 recommended_app_result = {
                     "id": recommended_app.id,
-                    "app": {
-                        "id": app.id,
-                        "name": app.name,
-                        "mode": app.mode,
-                        "icon": app.icon,
-                        "icon_background": app.icon_background,
-                    },
+                "app": recommended_app.app,
                     "app_id": recommended_app.app_id,
                     "description": description,
                     "copyright": site.copyright,
