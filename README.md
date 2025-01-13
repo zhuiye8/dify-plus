@@ -210,6 +210,10 @@ toxingwang@gmail.com
 ### 微信交流群
 <img width="120" alt="image" src="https://github.com/user-attachments/assets/c289efc5-27f6-4f2b-8170-27ca51f94e90" />
 
+### Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=YFGaia/dify-plus&type=Date)](https://star-history.com/#YFGaia/dify-plus&Date)
+
 
 ## License
 
