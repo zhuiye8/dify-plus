@@ -24,7 +24,7 @@ from core.app.entities.app_invoke_entities import (
     InvokeFrom,
 )
 from core.app.entities.task_entities import ChatbotAppBlockingResponse, ChatbotAppStreamResponse
-from core.model_runtime.errors.invoke import InvokeAuthorizationError, InvokeError
+from core.model_runtime.errors.invoke import InvokeAuthorizationError
 from core.ops.ops_trace_manager import TraceQueueManager
 from core.prompt.utils.get_thread_messages_length import get_thread_messages_length
 from extensions.ext_database import db
@@ -32,6 +32,7 @@ from factories import file_factory
 from models.account import Account
 from models.model import ApiToken, App, Conversation, EndUser, Message  # 二开部分 - 密钥额度限制，新增ApiToken
 from models.workflow import Workflow
+from services.errors.message import MessageNotExistsError
 
 logger = logging.getLogger(__name__)
 
@@ -155,7 +156,7 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
                 user_inputs=inputs, variables=app_config.variables, tenant_id=app_model.tenant_id
             ),
             query=query,
-            files=file_objs,
+            files=list(file_objs),
             parent_message_id=args.get("parent_message_id") if invoke_from != InvokeFrom.SERVICE_API else UUID_NIL,
             user_id=user.id,
             stream=streaming,
@@ -323,6 +324,8 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
                 # get conversation and message
                 conversation = self._get_conversation(conversation_id)
                 message = self._get_message(message_id)
+                if message is None:
+                    raise MessageNotExistsError("Message not exists")
 
                 # chatbot app
                 runner = AdvancedChatAppRunner(
@@ -343,7 +346,7 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
             except ValidationError as e:
                 logger.exception("Validation Error when generating")
                 queue_manager.publish_error(e, PublishFrom.APPLICATION_MANAGER)
-            except (ValueError, InvokeError) as e:
+            except ValueError as e:
                 if dify_config.DEBUG:
                     logger.exception("Error when generating")
                 queue_manager.publish_error(e, PublishFrom.APPLICATION_MANAGER)
@@ -390,7 +393,7 @@ class AdvancedChatAppGenerator(MessageBasedAppGenerator):
         try:
             return generate_task_pipeline.process()
         except ValueError as e:
-            if e.args[0] == "I/O operation on closed file.":  # ignore this error
+            if len(e.args) > 0 and e.args[0] == "I/O operation on closed file.":  # ignore this error
                 raise GenerateTaskStoppedError()
             else:
                 logger.exception(f"Failed to process generate task pipeline, conversation_id: {conversation.id}")

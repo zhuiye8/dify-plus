@@ -1,6 +1,6 @@
 import logging
 
-from flask_login import current_user
+from flask_login import current_user  # type: ignore
 
 from configs import dify_config
 from extensions.ext_database import db
@@ -32,6 +32,7 @@ class WorkspaceService:
             .filter(TenantAccountJoin.tenant_id == tenant.id, TenantAccountJoin.account_id == current_user.id)
             .first()
         )
+        assert tenant_account_join is not None, "TenantAccountJoin not found"
         tenant_info["role"] = tenant_account_join.role
 
         # ----------------------- 二开部分Start 添加用户权限 - ----------------------

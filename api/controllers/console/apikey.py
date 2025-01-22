@@ -1,6 +1,8 @@
-import flask_restful
+from typing import Any
+
+import flask_restful  # type: ignore
 from flask import request  # 二开部分 - 密钥额度限制
-from flask_login import current_user
+from flask_login import current_user  # type: ignore
 from flask_restful import Resource, fields, marshal_with
 from sqlalchemy.orm import aliased  # 二开部分 - 密钥额度限制
 from werkzeug.exceptions import Forbidden
@@ -46,14 +48,15 @@ def _get_resource(resource_id, tenant_id, resource_model):
 class BaseApiKeyListResource(Resource):
     method_decorators = [account_initialization_required, login_required, setup_required]
 
-    resource_type = None
-    resource_model = None
-    resource_id_field = None
-    token_prefix = None
+    resource_type: str | None = None
+    resource_model: Any = None
+    resource_id_field: str | None = None
+    token_prefix: str | None = None
     max_keys = 10
 
     @marshal_with(api_key_list)
     def get(self, resource_id):
+        assert self.resource_id_field is not None, "resource_id_field must be set"
         resource_id = str(resource_id)
         _get_resource(resource_id, current_user.current_tenant_id, self.resource_model)
         # keys = (
@@ -85,6 +88,7 @@ class BaseApiKeyListResource(Resource):
 
     @marshal_with(api_key_fields)
     def post(self, resource_id):
+        assert self.resource_id_field is not None, "resource_id_field must be set"
         resource_id = str(resource_id)
         _get_resource(resource_id, current_user.current_tenant_id, self.resource_model)
         if not current_user.is_admin_or_owner:
@@ -143,7 +147,7 @@ class BaseApiKeyListResource(Resource):
         # --------------------- 二开部分End - 密钥额度限制 ---------------------
 
         return api_token, 201
-    
+
     # --------------------- 二开部分Begin - 密钥额度限制 ---------------------
     @marshal_with(api_key_fields)
     def put(self, resource_id):
@@ -152,7 +156,7 @@ class BaseApiKeyListResource(Resource):
 
         if not current_user.is_admin_or_owner:
             raise Forbidden()
-        
+
         content_type = request.headers.get("Content-Type")
         if content_type == "application/json":
             try:
@@ -212,11 +216,12 @@ class BaseApiKeyListResource(Resource):
 class BaseApiKeyResource(Resource):
     method_decorators = [account_initialization_required, login_required, setup_required]
 
-    resource_type = None
-    resource_model = None
-    resource_id_field = None
+    resource_type: str | None = None
+    resource_model: Any = None
+    resource_id_field: str | None = None
 
     def delete(self, resource_id, api_key_id):
+        assert self.resource_id_field is not None, "resource_id_field must be set"
         resource_id = str(resource_id)
         api_key_id = str(api_key_id)
         _get_resource(resource_id, current_user.current_tenant_id, self.resource_model)
