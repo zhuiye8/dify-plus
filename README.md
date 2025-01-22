@@ -96,9 +96,22 @@ Dify-Plus，该名字不是说比 Dify 项目牛的意思，意思是想说比 D
 
 ![dify-plus.png](images/dify_plus.png)
 
-## 源码启动方式
-> 启动方式跟原来的开源项目一致，这里只简单写了一种源码的启动方式
 
+## 启动方式（docker-compose）
+路径：/docker/docker-compose.dify-plus.yaml
+
+说明：该文件是从原dify项目精简而来，只保留了最小需要启动的服务，其他服务自行按需调整哦～
+
+```shell
+docker-compose -f docker-compose.dify-plus.yaml up -d
+```
+
+注意：
+- famousmai/dify-plus-api 和 famousmai/dify-plus-web 是`ARM`系统的镜像
+- 非Mac系统：镜像需要自己构建(把`docker-compose.dify-plus.yaml`对应位置的image注释掉，改成build)
+- Mac系统：可以直接使用我们准备好的 Docker Hub 上的镜像
+
+## 启动方式（源码）
 ### 1. 前置依赖
 
 #### 语言版本
