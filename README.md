@@ -221,7 +221,8 @@ go run main.go
 toxingwang@gmail.com
 
 ### 微信交流群
-<img width="120" alt="image" src="https://github.com/user-attachments/assets/3bad2d10-3e03-4542-8010-8e9729e69f2d" />
+<img width="120" alt="image" src="https://github.com/user-attachments/assets/0448bd40-c743-4e3b-a035-d29da7ab1934" />
+
 
 ### Star History
 
