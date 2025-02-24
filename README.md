@@ -220,8 +220,8 @@ go run main.go
 
 ## 联系我们
 ### email
-toxingwang@gmail.com
-906631095@qq.com
+- toxingwang@gmail.com
+- 906631095@qq.com
 
 ### 微信交流群
 <img width="120" alt="image" src="https://github.com/user-attachments/assets/0448bd40-c743-4e3b-a035-d29da7ab1934" />
