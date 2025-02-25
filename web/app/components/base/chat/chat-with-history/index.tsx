@@ -220,7 +220,7 @@ const ChatWithHistoryWrapWithCheckToken: FC<ChatWithHistoryWrapProps> = ({
   const consoleTokenFromLocalStorage = localStorage?.getItem('console_token')
 
   if (!(consoleToken || consoleTokenFromLocalStorage)) {
-    if (window.location !== undefined)
+    if (window !== undefined && window.location !== undefined)
       localStorage?.setItem('redirect_url', window.location.href)
     router.replace('/signin')
     return null
