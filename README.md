@@ -208,6 +208,9 @@ go run main.go
 1. 不需要手动填写admin-server的数据库配置，在初始化数据库配置时，会自动写到配置里（如果你提前写了数据库配置到配置里，在初始化的时候会报数据库已初始化）
 2. 管理中心和 Dify 使用的是同一个数据库
 
+#### 关于后台管理员账号
+后台管理员帐号密码即 Dify 第一个帐号，例如你初始化的Dify 第一个帐号为 famousmai@qq.com，则管理员后台的登录账号就是 famousmai，密码是一样的
+
 ## 相关配置说明
 - Dify 相关配置说明：https://docs.dify.ai/zh-hans/getting-started/install-self-hosted/environments
 - 管理中心 相关配置说明：
