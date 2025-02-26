@@ -227,7 +227,8 @@ go run main.go
 - 906631095@qq.com
 
 ### 微信交流群
-<img width="120" alt="image" src="https://github.com/user-attachments/assets/0448bd40-c743-4e3b-a035-d29da7ab1934" />
+<img width="120" alt="image" src="https://github.com/user-attachments/assets/3f033cdc-f5d5-42a3-9f80-cf41b6967a94" />
+
 
 ### 请作者喝咖啡~
 <img width="120" alt="image" src="https://github.com/user-attachments/assets/9a1ce3d4-3101-46eb-8a72-0a39db5b836b" />
