@@ -68,7 +68,7 @@ func (userService *UserService) Login(u *system.SysUser) (userInter *system.SysU
 	}
 
 	var user system.SysUser
-	err = global.GVA_DB.Where("username = ?", u.Username).Preload("Authorities").Preload("Authority").First(&user).Error
+	err = global.GVA_DB.Where("username = ? or email = ?", u.Username, u.Username).Preload("Authorities").Preload("Authority").First(&user).Error
 	if err == nil {
 		// Extend: Start 用户账号密码登录修改
 		var ok bool

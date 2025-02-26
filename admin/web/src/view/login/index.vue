@@ -42,7 +42,7 @@
                   <el-input
                     v-model="loginFormData.username"
                     size="large"
-                    placeholder="请输入用户名"
+                    placeholder="请输入dify的第一个帐号,即为管理员帐号"
                     suffix-icon="user"
                   />
                 </el-form-item>
@@ -224,7 +224,7 @@ loginVerify()
 const loginForm = ref(null)
 const picPath = ref('')
 const loginFormData = reactive({
-  username: 'admin',
+  username: '',
   password: '',
   captcha: '',
   captchaId: '',
