@@ -1,6 +1,6 @@
 {
   "name": "dify-web",
-  "version": "0.15.1",
+  "version": "0.15.3",
   "private": true,
   "engines": {
     "node": ">=18.17.0"
@@ -66,7 +66,7 @@
     "jschardet": "^3.1.3",
     "jszip": "^3.10.1",
     "jwt-decode": "^4.0.0",
-    "katex": "^0.16.10",
+    "katex": "^0.16.21",
     "lamejs": "^1.2.1",
     "lexical": "^0.16.0",
     "line-clamp": "^1.0.0",
