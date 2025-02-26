@@ -4,6 +4,7 @@ from models.account import Account
 from models.account_money_extend import AccountMoneyExtend
 from models.api_token_money_extend import ApiTokenMessageJoinsExtend, ApiTokenMoneyExtend
 from models.model_extend import EndUserAccountJoinsExtend
+from configs import dify_config
 
 
 @message_was_created.connect
@@ -32,7 +33,8 @@ def handle(sender, **kwargs):
     account_money = db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).first()
     if account_money:
         db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
-            {"used_quota": account_money.used_quota + message.total_price}
+            {"used_quota": account_money.used_quota + (message.total_price if message.currency == "USD" else (
+            message.total_price / dify_config.RMB_TO_USD_RATE))} # Extend: Supplier model billing logic modification
         )
     else:
         account_money_add = AccountMoneyExtend(

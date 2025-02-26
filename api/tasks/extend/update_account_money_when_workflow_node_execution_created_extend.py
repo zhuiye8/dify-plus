@@ -14,6 +14,7 @@ from models.api_token_money_extend import ApiTokenMessageJoinsExtend, ApiTokenMo
 from models.enums import CreatedByRole
 from models.model_extend import EndUserAccountJoinsExtend
 from models.workflow import WorkflowNodeExecution
+from configs import dify_config
 
 
 @shared_task(queue="extend_high", bind=True, max_retries=3)
@@ -54,7 +55,8 @@ def update_account_money_when_workflow_node_execution_created_extend(self, workf
         logging.info(click.style("更新账号额度，账号ID： {}".format(payerId), fg="green"))
         if account_money:
             db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
-                {"used_quota": account_money.used_quota + total_price}
+                {"used_quota": account_money.used_quota + (total_price if currency == "USD" else (
+                total_price / dify_config.RMB_TO_USD_RATE))} # Extend: Supplier model billing logic modification
             )
         else:
             account_money_add = AccountMoneyExtend(

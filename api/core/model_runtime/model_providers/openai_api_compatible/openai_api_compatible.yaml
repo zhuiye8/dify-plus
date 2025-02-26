@@ -191,3 +191,58 @@ model_credential_schema:
       help:
         en_US: "List voice names separated by commas. First voice will be used as default."
         zh_Hans: "用英文逗号分隔的声音列表。第一个声音将作为默认值。"
+    - variable: input_price
+      label:
+        en_US: Input Price
+        zh_Hans: 输入价格
+      type: text-input
+      required: true
+      default: ""
+      placeholder:
+        zh_Hans: 在此输入input价格
+        en_US: Enter input price
+    - variable: output_price
+      label:
+        en_US: Output Price
+        zh_Hans: 输出价格
+      type: text-input
+      required: true
+      default: ""
+      placeholder:
+        zh_Hans: 在此输入output价格
+        en_US: Enter output price
+    - variable: unit_price
+      label:
+        en_US: Price Unit
+        zh_Hans: 价格单位
+      type: select
+      required: true
+      default: "0.001"
+      options:
+        - value: "0.001"
+          label:
+            en_US: "1K Tokens"
+            zh_Hans: "1K Tokens"
+        - value: "0.000001"
+          label:
+            en_US: "1M Tokens"
+            zh_Hans: "1M Tokens"
+      placeholder:
+        zh_Hans: 在此选择价格单位
+        en_US: Select price unit here
+    - variable: currency
+      label:
+        en_US: Currency Type
+        zh_Hans: 货币类型
+      type: select
+      required: true
+      default: USD
+      options:
+        - value: USD
+          label:
+            en_US: USD
+            zh_Hans: 美元
+        - value: RMB
+          label:
+            en_US: RMB
+            zh_Hans: 人民币

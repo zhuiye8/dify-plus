@@ -56,6 +56,11 @@ class ExtendInfo(BaseSettings):
         default="888",
     )
 
+    RMB_TO_USD_RATE: Optional[str] = Field(
+        description="人民币兑美元汇率",
+        default=None,
+    )
+
 
 class ExtendConfig(ExtendInfo):
     pass
