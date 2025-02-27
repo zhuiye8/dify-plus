@@ -54,9 +54,11 @@ def update_account_money_when_workflow_node_execution_created_extend(self, workf
         account_money = db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).first()
         logging.info(click.style("更新账号额度，账号ID： {}".format(payerId), fg="green"))
         if account_money:
+            currency = outputs.get("usage", {}).get("currency", 0)  # Extend: Supplier model billing logic modification
             db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
-                {"used_quota": account_money.used_quota + (total_price if currency == "USD" else (
-                total_price / dify_config.RMB_TO_USD_RATE))} # Extend: Supplier model billing logic modification
+            {
+                "used_quota": float(account_money.used_quota) + (float(total_price) if currency == "USD" else (
+                        float(total_price) / float(dify_config.RMB_TO_USD_RATE)))}  # Extend: Supplier model billing logic modification
             )
         else:
             account_money_add = AccountMoneyExtend(

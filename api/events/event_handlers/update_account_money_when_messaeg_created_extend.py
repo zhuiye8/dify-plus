@@ -33,8 +33,8 @@ def handle(sender, **kwargs):
     account_money = db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).first()
     if account_money:
         db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
-            {"used_quota": account_money.used_quota + (message.total_price if message.currency == "USD" else (
-            message.total_price / dify_config.RMB_TO_USD_RATE))} # Extend: Supplier model billing logic modification
+            {"used_quota": float(account_money.used_quota) + (float(message.total_price) if message.currency == "USD" else (
+                        float(message.total_price) / float(dify_config.RMB_TO_USD_RATE)))}  # Extend: Supplier model billing logic modification
         )
     else:
         account_money_add = AccountMoneyExtend(
