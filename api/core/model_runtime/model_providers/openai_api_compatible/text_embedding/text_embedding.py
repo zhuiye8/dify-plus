@@ -21,6 +21,7 @@ from core.model_runtime.entities.text_embedding_entities import EmbeddingUsage, 
 from core.model_runtime.errors.validate import CredentialsValidateFailedError
 from core.model_runtime.model_providers.__base.text_embedding_model import TextEmbeddingModel
 from core.model_runtime.model_providers.openai_api_compatible._common import _CommonOaiApiCompat
+from core.model_runtime.entities.llm_entities import LLMUsage # Extend: Supplier model billing logic modification
 
 
 class OAICompatEmbeddingModel(_CommonOaiApiCompat, TextEmbeddingModel):
