@@ -56,7 +56,7 @@ export default function AppSelector({ isMobile }: IAppSelector) {
     // 二开部分 - End 解决切换账号对话记录不存在问题
 
     // Start: Automatic login/logout Extend
-    if (window.location !== undefined && `${process.env.NEXT_PUBLIC_AUTH0_LOGOUT_URL}` !== '')
+    if (window.location !== undefined && `${process.env.NEXT_PUBLIC_AUTH0_LOGOUT_URL}` !== '' && process.env.NEXT_PUBLIC_AUTH0_LOGOUT_URL !== undefined)
       window.location.href = `${process.env.NEXT_PUBLIC_AUTH0_LOGOUT_URL}&redirect_url=${window.location.href}`
     // Stop: Automatic login/logout Extend
     router.push('/signin')
