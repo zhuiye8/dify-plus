@@ -21,7 +21,11 @@ class ModelProviderModelSyncApi(Resource):
     @login_required
     @account_initialization_required
     def post(self, provider: str):
-        if dify_config.SUPER_ADMIN_TENANT_ID is None:
+
+        tenant_extend_service = TenantExtendService
+        super_admin_tenant_id = tenant_extend_service.get_super_admin_tenant_id().id
+
+        if super_admin_tenant_id is None:
             return {"error": "请设置默认工作区ID"}, 400
 
         parser = reqparse.RequestParser()
@@ -49,7 +53,7 @@ class ModelProviderModelSyncApi(Resource):
         provider_model_record = (
             db.session.query(ProviderModel)
             .filter(
-                ProviderModel.tenant_id == dify_config.SUPER_ADMIN_TENANT_ID,
+                ProviderModel.tenant_id == super_admin_tenant_id,
                 ProviderModel.provider_name == provider,
                 ProviderModel.model_name == model,
                 ProviderModel.model_type == ModelType.value_of(model_type).to_origin_model_type(),
@@ -99,10 +103,10 @@ class ModelProviderModelSyncApi(Resource):
 
         # 只对需要新增的工作区进行操作
         for tenant_id in to_add:
-            if tenant_id == dify_config.SUPER_ADMIN_TENANT_ID:
+            if tenant_id == super_admin_tenant_id:
                 continue
             origin_credentials = model_provider_service_extend.get_model_credentials_obfuscated(
-                tenant_id=dify_config.SUPER_ADMIN_TENANT_ID, provider=provider, model_type=model_type, model=model
+                tenant_id=super_admin_tenant_id, provider=provider, model_type=model_type, model=model
             )
             # 查不到相应的凭证
             if origin_credentials is None:

@@ -20,8 +20,10 @@ class ModelProviderSyncApi(Resource):
     @login_required
     @account_initialization_required
     def post(self, provider: str):
+        tenant_extend_service = TenantExtendService
+        super_admin_tenant_id = tenant_extend_service.get_super_admin_tenant_id().id
 
-        if dify_config.SUPER_ADMIN_TENANT_ID is None:
+        if super_admin_tenant_id is None:
             return {"error": "请设置默认工作区ID"}, 400
 
         parser = reqparse.RequestParser()
@@ -38,7 +40,7 @@ class ModelProviderSyncApi(Resource):
         provider_record = (
             db.session.query(Provider)
             .filter(
-                Provider.tenant_id == dify_config.SUPER_ADMIN_TENANT_ID,
+                Provider.tenant_id == super_admin_tenant_id,
                 Provider.provider_name == provider,
                 Provider.provider_type == ProviderType.CUSTOM.value,
             )
@@ -84,10 +86,10 @@ class ModelProviderSyncApi(Resource):
             model_provider_service_extend.delete_syned_tenants(origin_model_id=provider_record.id, tenant_id=tenant_id)
 
         for tenant_id in to_add:
-            if tenant_id == dify_config.SUPER_ADMIN_TENANT_ID:
+            if tenant_id == super_admin_tenant_id:
                 continue
             origin_credentials = model_provider_service_extend.get_provider_credentials_obfuscated(
-                tenant_id=dify_config.SUPER_ADMIN_TENANT_ID,
+                tenant_id=super_admin_tenant_id,
                 provider=provider,
             )
             # 查不到相应的凭证
