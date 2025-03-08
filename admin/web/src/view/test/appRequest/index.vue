@@ -228,7 +228,7 @@ const toSyncTest = async () => {
   .then(async () => {
     const res = await gaiaAppRequestTest()
     if (res.code === 0) {
-      ElMessage.success('执行成功,请等待钉钉通知')
+      ElMessage.success('执行成功')
       await getTableData()
     }
   })
