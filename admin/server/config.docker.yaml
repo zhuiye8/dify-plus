@@ -77,7 +77,7 @@ email:
 excel:
     dir: ./resource/excel/
 gaia:
-    url: http://127.0.0.1:5001
+    url: http://api:5001
     login_max_error_limit: 5
     SUPER_ADMIN_ACCOUNT_ID:
     SUPER_ADMIN_TENANT_ID:
