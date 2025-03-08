@@ -6,6 +6,7 @@ import click
 from celery import shared_task
 from sqlalchemy.exc import SQLAlchemyError
 
+from configs import dify_config
 from core.workflow.nodes.enums import NodeType
 from extensions.ext_database import db
 from models.account import Account
@@ -14,7 +15,6 @@ from models.api_token_money_extend import ApiTokenMessageJoinsExtend, ApiTokenMo
 from models.enums import CreatedByRole
 from models.model_extend import EndUserAccountJoinsExtend
 from models.workflow import WorkflowNodeExecution
-from configs import dify_config
 
 
 @shared_task(queue="extend_high", bind=True, max_retries=3)
@@ -29,9 +29,11 @@ def update_account_money_when_workflow_node_execution_created_extend(self, workf
     # 拿到费用
     outputs = json.loads(workflowNodeExecution.outputs) if workflowNodeExecution.outputs else {}
     total_price = Decimal(outputs.get("usage", {}).get("total_price", 0))
+    currency = outputs.get("usage", {}).get("currency", "USD")
     if total_price == 0:
         return
-    logging.info(click.style("扣除费用： {}".format(total_price), fg="green"))
+    price = float(total_price) if currency == "USD" else (float(total_price) / float(dify_config.RMB_TO_USD_RATE))
+    logging.info(click.style("扣除费用： {}".format(price), fg="green"))
 
     try:
         # 当前是end_user，节点账号id
@@ -54,16 +56,14 @@ def update_account_money_when_workflow_node_execution_created_extend(self, workf
         account_money = db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).first()
         logging.info(click.style("更新账号额度，账号ID： {}".format(payerId), fg="green"))
         if account_money:
-            currency = outputs.get("usage", {}).get("currency", 0)  # Extend: Supplier model billing logic modification
             db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
             {
-                "used_quota": float(account_money.used_quota) + (float(total_price) if currency == "USD" else (
-                        float(total_price) / float(dify_config.RMB_TO_USD_RATE)))}  # Extend: Supplier model billing logic modification
+                "used_quota": float(account_money.used_quota) + price}
             )
         else:
             account_money_add = AccountMoneyExtend(
                 account_id=payerId,
-                used_quota=total_price,
+                used_quota=price,
                 total_quota=15,  # TODO 初始总额度这里到时候默认15要改
             )
             db.session.add(account_money_add)
@@ -81,21 +81,21 @@ def update_account_money_when_workflow_node_execution_created_extend(self, workf
                 ApiTokenMoneyExtend.app_token_id == api_token_message.app_token_id
             ).update(
                 {
-                    "accumulated_quota": ApiTokenMoneyExtend.accumulated_quota + total_price,
-                    "day_used_quota": ApiTokenMoneyExtend.day_used_quota + total_price,
-                    "month_used_quota": ApiTokenMoneyExtend.month_used_quota + total_price,
+                    "accumulated_quota": ApiTokenMoneyExtend.accumulated_quota + price,
+                    "day_used_quota": ApiTokenMoneyExtend.day_used_quota + price,
+                    "month_used_quota": ApiTokenMoneyExtend.month_used_quota + price,
                 },
             )
 
         db.session.commit()
     except SQLAlchemyError as e:
         logging.exception(
-            click.style(f"工作流节点ID： {format(workflowNodeExecution.id)}，扣除费用：{format(total_price)} 数据库异常，60秒后进行重试，", fg="red")
+            click.style(f"工作流节点ID： {format(workflowNodeExecution.id)}，扣除费用：{format(price)} 数据库异常，60秒后进行重试，", fg="red")
         )
         raise self.retry(exc=e, countdown=60)  # Retry after 60 seconds
     except Exception as e:
         logging.exception(
-            click.style(f"工作流节点ID： {format(workflowNodeExecution.id)}，扣除费用：{format(total_price)} 异常报错，60秒后进行重试，", fg="red")
+            click.style(f"工作流节点ID： {format(workflowNodeExecution.id)}，扣除费用：{format(price)} 异常报错，60秒后进行重试，", fg="red")
         )
         raise self.retry(exc=e, countdown=60)
 

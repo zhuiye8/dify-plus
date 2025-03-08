@@ -1,3 +1,4 @@
+import decimal
 from typing import Optional
 
 from pydantic import Field
@@ -56,7 +57,7 @@ class ExtendInfo(BaseSettings):
         default="888",
     )
 
-    RMB_TO_USD_RATE: Optional[str] = Field(
+    RMB_TO_USD_RATE: Optional[decimal.Decimal] = Field(
         description="人民币兑美元汇率",
         default="7.26",
     )

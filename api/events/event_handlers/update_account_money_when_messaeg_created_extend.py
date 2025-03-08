@@ -1,10 +1,10 @@
+from configs import dify_config
 from events.message_event import message_was_created
 from extensions.ext_database import db
 from models.account import Account
 from models.account_money_extend import AccountMoneyExtend
 from models.api_token_money_extend import ApiTokenMessageJoinsExtend, ApiTokenMoneyExtend
 from models.model_extend import EndUserAccountJoinsExtend
-from configs import dify_config
 
 
 @message_was_created.connect
@@ -31,15 +31,15 @@ def handle(sender, **kwargs):
                 payerId = end_user_account_joins.account_id
 
     account_money = db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).first()
+    price = float(message.total_price) if message.currency == "USD" else (float(message.total_price) / float(dify_config.RMB_TO_USD_RATE))
     if account_money:
         db.session.query(AccountMoneyExtend).filter(AccountMoneyExtend.account_id == payerId).update(
-            {"used_quota": float(account_money.used_quota) + (float(message.total_price) if message.currency == "USD" else (
-                        float(message.total_price) / float(dify_config.RMB_TO_USD_RATE)))}  # Extend: Supplier model billing logic modification
+            {"used_quota": float(account_money.used_quota) + price}
         )
     else:
         account_money_add = AccountMoneyExtend(
             account_id=payerId,
-            used_quota=message.total_price,
+            used_quota=price,
             total_quota=15,  # TODO 初始总额度这里到时候默认15要改
         )
         db.session.add(account_money_add)
@@ -54,9 +54,9 @@ def handle(sender, **kwargs):
             ApiTokenMoneyExtend.app_token_id == api_token_message.app_token_id
         ).update(
             {
-                "accumulated_quota": ApiTokenMoneyExtend.accumulated_quota + message.total_price,
-                "day_used_quota": ApiTokenMoneyExtend.day_used_quota + message.total_price,
-                "month_used_quota": ApiTokenMoneyExtend.month_used_quota + message.total_price,
+                "accumulated_quota": ApiTokenMoneyExtend.accumulated_quota + price,
+                "day_used_quota": ApiTokenMoneyExtend.day_used_quota + price,
+                "month_used_quota": ApiTokenMoneyExtend.month_used_quota + price,
             },
         )
 
