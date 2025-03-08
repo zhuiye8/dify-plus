@@ -195,11 +195,9 @@ func (i *initApi) InitializeData(ctx context.Context) (context.Context, error) {
 		{ApiGroup: "tenants表", Method: "GET", Path: "/tenants/findTenants", Description: "根据ID获取tenants表"},
 		{ApiGroup: "providers表", Method: "GET", Path: "/providers/getProvidersList", Description: "获取providers表列表"},
 		{ApiGroup: "providers表", Method: "GET", Path: "/providers/findProviders", Description: "根据ID获取providers表"},
-		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAiImageQuotaRankingData", Description: "获取【AI图片】使用量排名数据列表"},
 		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAppTokenDailyQuotaData", Description: "获取每天密钥花费数据列表"},
 		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAppTokenQuotaRankingData", Description: "分页获取【应用密钥】配额排名数据列表"},
 		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAppQuotaRankingData", Description: "分页获取【应用】配额排名数据"},
-		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAccountQuotaRankingData", Description: "获取账户配额排名数据"},
 		{ApiGroup: "盖亚报表", Method: "GET", Path: "/gaia/dashboard/getAccountQuotaRankingData", Description: "获取账户配额排名数据"},
 		{ApiGroup: "系统用户", Method: "POST", Path: "/user/sync", Description: "同步用户列表"},
 	}

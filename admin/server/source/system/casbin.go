@@ -198,7 +198,6 @@ func (i *initCasbin) InitializeData(ctx context.Context) (context.Context, error
 		{Ptype: "p", V0: "888", V1: "/tenants/findTenants", V2: "GET"},
 		{Ptype: "p", V0: "888", V1: "/providers/getProvidersList", V2: "GET"},
 		{Ptype: "p", V0: "888", V1: "/providers/findProviders", V2: "GET"},
-		{Ptype: "p", V0: "888", V1: "/gaia/dashboard/getAiImageQuotaRankingData", V2: "GET"},
 		{Ptype: "p", V0: "888", V1: "/gaia/dashboard/getAppTokenDailyQuotaData", V2: "GET"},
 		{Ptype: "p", V0: "888", V1: "/gaia/dashboard/getAppTokenQuotaRankingData", V2: "GET"},
 		{Ptype: "p", V0: "888", V1: "/gaia/dashboard/getAppQuotaRankingData", V2: "GET"},
