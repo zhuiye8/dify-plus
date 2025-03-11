@@ -53,7 +53,7 @@ const translation = {
     },
     website: {
       limit: 'Ograniczać',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       firecrawlDoc: 'Dokumentacja Firecrawl',
       unknownError: 'Nieznany błąd',
       fireCrawlNotConfiguredDescription: 'Skonfiguruj Firecrawl z kluczem API, aby z niego korzystać.',
@@ -213,7 +213,7 @@ const translation = {
   otherDataSource: {
     learnMore: 'Dowiedz się więcej',
     title: 'Połączyć się z innymi źródłami danych?',
-    description: 'Obecnie baza wiedzy Dify ma tylko ograniczone źródła danych. Dodanie źródła danych do bazy wiedzy Dify to fantastyczny sposób na zwiększenie elastyczności i możliwości platformy dla wszystkich użytkowników. Nasz przewodnik po wkładach ułatwia rozpoczęcie pracy. Kliknij poniższy link, aby dowiedzieć się więcej.',
+    description: 'Obecnie baza wiedzy Nature ma tylko ograniczone źródła danych. Dodanie źródła danych do bazy wiedzy Nature to fantastyczny sposób na zwiększenie elastyczności i możliwości platformy dla wszystkich użytkowników. Nasz przewodnik po wkładach ułatwia rozpoczęcie pracy. Kliknij poniższy link, aby dowiedzieć się więcej.',
   },
 }
 

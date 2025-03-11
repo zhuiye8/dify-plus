@@ -68,7 +68,7 @@ const translation = {
       unknownError: 'Unbekannter Fehler',
       resetAll: 'Alles zurücksetzen',
       extractOnlyMainContent: 'Extrahieren Sie nur den Hauptinhalt (keine Kopf-, Navigations- und Fußzeilen usw.)',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       firecrawlTitle: 'Extrahieren von Webinhalten mit 🔥Firecrawl',
       maxDepthTooltip: 'Maximale Tiefe für das Crawlen relativ zur eingegebenen URL. Tiefe 0 kratzt nur die Seite der eingegebenen URL, Tiefe 1 kratzt die URL und alles nach der eingegebenen URL + ein / und so weiter.',
       crawlSubPage: 'Unterseiten crawlen',
@@ -197,7 +197,7 @@ const translation = {
   otherDataSource: {
     learnMore: 'Weitere Informationen',
     title: 'Verbinden Sie sich mit anderen Datenquellen?',
-    description: 'Derzeit verfügt die Wissensdatenbank von Dify nur über begrenzte Datenquellen. Das Beitragen einer Datenquelle zur Dify-Wissensdatenbank ist eine fantastische Möglichkeit, die Flexibilität und Leistungsfähigkeit der Plattform für alle Benutzer zu verbessern. Unser Beitragsleitfaden erleichtert Ihnen den Einstieg. Bitte klicken Sie auf den untenstehenden Link, um mehr zu erfahren.',
+    description: 'Derzeit verfügt die Wissensdatenbank von Nature nur über begrenzte Datenquellen. Das Beitragen einer Datenquelle zur Nature-Wissensdatenbank ist eine fantastische Möglichkeit, die Flexibilität und Leistungsfähigkeit der Plattform für alle Benutzer zu verbessern. Unser Beitragsleitfaden erleichtert Ihnen den Einstieg. Bitte klicken Sie auf den untenstehenden Link, um mehr zu erfahren.',
   },
 }
 

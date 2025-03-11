@@ -62,7 +62,7 @@ const translation = {
       run: 'اجرا',
       firecrawlTitle: 'استخراج محتوای وب با fireFirecrawl',
       firecrawlDoc: 'مستندات Firecrawl',
-      firecrawlDocLink: '<a href="https://docs.dify.ai/guides/knowledge-base/sync-from-website">https://docs.dify.ai/guides/knowledge-base/sync-from-website</a>',
+      firecrawlDocLink: '<a href="https://docs.nature.ai/guides/knowledge-base/sync-from-website">https://docs.nature.ai/guides/knowledge-base/sync-from-website</a>',
       options: 'گزینهها',
       crawlSubPage: 'خزش صفحات فرعی',
       limit: 'محدودیت',
@@ -196,7 +196,7 @@ const translation = {
   },
   otherDataSource: {
     learnMore: 'بیشتر بدانید',
-    description: 'در حال حاضر، پایگاه دانش Dify فقط منابع داده محدودی دارد. کمک به یک منبع داده به پایگاه دانش Dify راهی فوق العاده برای کمک به افزایش انعطاف پذیری و قدرت پلتفرم برای همه کاربران است. راهنمای مشارکت ما شروع کار را آسان می کند. لطفا برای کسب اطلاعات بیشتر روی لینک زیر کلیک کنید.',
+    description: 'در حال حاضر، پایگاه دانش Nature فقط منابع داده محدودی دارد. کمک به یک منبع داده به پایگاه دانش Nature راهی فوق العاده برای کمک به افزایش انعطاف پذیری و قدرت پلتفرم برای همه کاربران است. راهنمای مشارکت ما شروع کار را آسان می کند. لطفا برای کسب اطلاعات بیشتر روی لینک زیر کلیک کنید.',
     title: 'به منابع داده دیگر متصل شوید؟',
   },
 }

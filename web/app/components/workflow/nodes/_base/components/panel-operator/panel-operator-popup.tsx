@@ -165,7 +165,7 @@ const PanelOperatorPopup = ({
       {
         showHelpLink && (
           <>
-            <div className='p-1'>
+            {/* <div className='p-1'>
               <a
                 href={link}
                 target='_blank'
@@ -173,7 +173,7 @@ const PanelOperatorPopup = ({
               >
                 {t('workflow.panel.helpLink')}
               </a>
-            </div>
+            </div> */}
             <div className='h-[1px] bg-gray-100'></div>
           </>
         )

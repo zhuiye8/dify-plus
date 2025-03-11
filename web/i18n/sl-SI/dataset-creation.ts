@@ -70,7 +70,7 @@ const translation = {
       run: 'Zaženi',
       firecrawlTitle: 'Izvleci spletno vsebino z 🔥Firecrawl',
       firecrawlDoc: 'Firecrawl dokumentacija',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       jinaReaderTitle: 'Pretvori celotno stran v Markdown',
       jinaReaderDoc: 'Več o Jina Reader',
       jinaReaderDocLink: 'https://jina.ai/reader',
@@ -197,7 +197,7 @@ const translation = {
   otherDataSource: {
     learnMore: 'Izvedi več',
     title: 'Vzpostavite povezavo z drugimi viri podatkov?',
-    description: 'Trenutno ima baza znanja Dify le omejene vire podatkov. Prispevanje vira podatkov v bazo znanja Dify je fantastičen način za izboljšanje prilagodljivosti in moči platforme za vse uporabnike. Naš vodnik za prispevke olajša začetek. Če želite izvedeti več, kliknite spodnjo povezavo.',
+    description: 'Trenutno ima baza znanja Nature le omejene vire podatkov. Prispevanje vira podatkov v bazo znanja Nature je fantastičen način za izboljšanje prilagodljivosti in moči platforme za vse uporabnike. Naš vodnik za prispevke olajša začetek. Če želite izvedeti več, kliknite spodnjo povezavo.',
   },
 }
 

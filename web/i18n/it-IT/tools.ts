@@ -1,7 +1,7 @@
 const translation = {
   title: 'Strumenti',
   createCustomTool: 'Crea Strumento Personalizzato',
-  customToolTip: 'Scopri di più sugli strumenti personalizzati di Dify',
+  customToolTip: 'Scopri di più sugli strumenti personalizzati di Nature',
   type: {
     all: 'Tutti',
     builtIn: 'Integrato',
@@ -10,7 +10,7 @@ const translation = {
   },
   contribute: {
     line1: 'Sono interessato a ',
-    line2: 'contribuire con strumenti a Dify.',
+    line2: 'contribuire con strumenti a Nature.',
     viewGuide: 'Visualizza la guida',
   },
   author: 'Di',

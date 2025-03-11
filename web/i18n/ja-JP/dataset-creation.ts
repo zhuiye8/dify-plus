@@ -68,7 +68,7 @@ const translation = {
       run: '実行',
       firecrawlTitle: '🔥Firecrawlを使っでウエブコンテンツを抽出',
       firecrawlDoc: 'Firecrawlドキュメント',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       options: 'オプション',
       crawlSubPage: 'サブページをクロールする',
       limit: '制限',
@@ -196,7 +196,7 @@ const translation = {
   },
   otherDataSource: {
     title: '他のデータソースと接続しますか？',
-    description: '現在、Difyのナレッジベースには利用できるデータソースが限られています。Difyのナレッジベースにデータソースを提供いただくことは、プラットフォームの柔軟性と能力を向上させる上で非常に有益です。貢献ガイドをご用意していますので、ぜひご協力ください。詳細については、以下のリンクをクリックしてください。',
+    description: '現在、Natureのナレッジベースには利用できるデータソースが限られています。Natureのナレッジベースにデータソースを提供いただくことは、プラットフォームの柔軟性と能力を向上させる上で非常に有益です。貢献ガイドをご用意していますので、ぜひご協力ください。詳細については、以下のリンクをクリックしてください。',
     learnMore: '詳細はこちら',
   },
 }

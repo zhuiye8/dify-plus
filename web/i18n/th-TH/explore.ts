@@ -16,7 +16,7 @@ const translation = {
     },
   },
   apps: {
-    title: 'สํารวจแอพโดย Dify',
+    title: 'สํารวจแอพโดย Nature',
     description: 'ใช้แอปเทมเพลตเหล่านี้ทันทีหรือปรับแต่งแอปของคุณเองตามเทมเพลต',
     allCategories: 'แนะ นำ',
   },

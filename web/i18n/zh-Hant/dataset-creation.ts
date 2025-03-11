@@ -60,7 +60,7 @@ const translation = {
       fireCrawlNotConfiguredDescription: '使用 API 金鑰配置 Firecrawl 以使用它。',
       limit: '限制',
       crawlSubPage: '抓取子頁面',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       preview: '預覽',
       configure: '配置',
       excludePaths: '排除路徑',
@@ -196,7 +196,7 @@ const translation = {
   },
   otherDataSource: {
     learnMore: '瞭解更多資訊',
-    description: '目前，Dify 的知識庫只有有限的數據源。向 Dify 知識庫貢獻數據源是説明所有使用者增強平台靈活性和強大功能的絕佳方式。我們的貢獻指南使入門變得容易。請點擊下面的連結瞭解更多資訊。',
+    description: '目前，Nature 的知識庫只有有限的數據源。向 Nature 知識庫貢獻數據源是説明所有使用者增強平台靈活性和強大功能的絕佳方式。我們的貢獻指南使入門變得容易。請點擊下面的連結瞭解更多資訊。',
     title: '連接到其他數據源？',
   },
 }

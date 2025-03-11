@@ -6,7 +6,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
 <div>
   ### 鉴权
 
-  Dify Service API 使用 `API-Key` 进行鉴权。
+  Nature Service API 使用 `API-Key` 进行鉴权。
 
   建议开发者把 `API-Key` 放在后端存储，而非分享或者放在客户端存储，以免 `API-Key` 泄露，导致财产损失。
 
@@ -83,7 +83,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           - <code>topic/keywords</code> 主题/关键词 Topic or keywords
           - <code>description</code> 页面描述 Page description
 
-          请查看 [api/services/dataset_service.py](https://github.com/langgenius/dify/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
+          请查看 [api/services/dataset_service.py](https://github.com/langgenius/nature/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
 
           针对"其他"类型文档，接受任何有效的JSON对象
       </Property>
@@ -293,7 +293,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           - <code>description</code> 页面描述
             网页的描述信息
 
-          请查看 [api/services/dataset_service.py](https://github.com/langgenius/dify/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
+          请查看 [api/services/dataset_service.py](https://github.com/langgenius/nature/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
 
           针对"其他"类型文档，接受任何有效的JSON对象
 
@@ -353,7 +353,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
     ```bash {{ title: 'cURL' }}
     curl --location --request POST '${props.apiBaseUrl}/datasets/{dataset_id}/document/create-by-file' \
     --header 'Authorization: Bearer {api_key}' \
-    --form 'data="{\"name\":\"Dify\",\"indexing_technique\":\"high_quality\",\"process_rule\":{\"rules\":{\"pre_processing_rules\":[{\"id\":\"remove_extra_spaces\",\"enabled\":true},{\"id\":\"remove_urls_emails\",\"enabled\":true}],\"segmentation\":{\"separator\":\"###\",\"max_tokens\":500}},\"mode\":\"custom\"}}";type=text/plain' \
+    --form 'data="{\"name\":\"Nature\",\"indexing_technique\":\"high_quality\",\"process_rule\":{\"rules\":{\"pre_processing_rules\":[{\"id\":\"remove_extra_spaces\",\"enabled\":true},{\"id\":\"remove_urls_emails\",\"enabled\":true}],\"segmentation\":{\"separator\":\"###\",\"max_tokens\":500}},\"mode\":\"custom\"}}";type=text/plain' \
     --form 'file=@"/path/to/file"'
     ```
     </CodeGroup>
@@ -368,7 +368,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           "upload_file_id": ""
         },
         "dataset_process_rule_id": "",
-        "name": "Dify.txt",
+        "name": "Nature.txt",
         "created_from": "api",
         "created_by": "",
         "created_at": 1695308667,
@@ -642,7 +642,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           - <code>topic/keywords</code> 主题/关键词 Topic or keywords
           - <code>description</code> 页面描述 Page description
 
-          请查看 [api/services/dataset_service.py](https://github.com/langgenius/dify/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
+          请查看 [api/services/dataset_service.py](https://github.com/langgenius/nature/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
 
           针对"其他"类型文档，接受任何有效的JSON对象
       </Property>
@@ -825,7 +825,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
               - <code>description</code> 页面描述
                 网页的描述信息
 
-              请查看 [api/services/dataset_service.py](https://github.com/langgenius/dify/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
+              请查看 [api/services/dataset_service.py](https://github.com/langgenius/nature/blob/main/api/services/dataset_service.py#L475) 了解各文档类型所需字段的详细信息。
 
               针对"其他"类型文档，接受任何有效的JSON对象
       </Property>
@@ -836,12 +836,12 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
       title="Request"
       tag="POST"
       label="/datasets/{dataset_id}/documents/{document_id}/update-by-file"
-      targetCode={`curl --location --request POST '${props.apiBaseUrl}/datasets/{dataset_id}/documents/{document_id}/update-by-file' \\\n--header 'Authorization: Bearer {api_key}' \\\n--form 'data="{"name":"Dify","indexing_technique":"high_quality","process_rule":{"rules":{"pre_processing_rules":[{"id":"remove_extra_spaces","enabled":true},{"id":"remove_urls_emails","enabled":true}],"segmentation":{"separator":"###","max_tokens":500}},"mode":"custom"}}";type=text/plain' \\\n--form 'file=@"/path/to/file"'`}
+      targetCode={`curl --location --request POST '${props.apiBaseUrl}/datasets/{dataset_id}/documents/{document_id}/update-by-file' \\\n--header 'Authorization: Bearer {api_key}' \\\n--form 'data="{"name":"Nature","indexing_technique":"high_quality","process_rule":{"rules":{"pre_processing_rules":[{"id":"remove_extra_spaces","enabled":true},{"id":"remove_urls_emails","enabled":true}],"segmentation":{"separator":"###","max_tokens":500}},"mode":"custom"}}";type=text/plain' \\\n--form 'file=@"/path/to/file"'`}
     >
     ```bash {{ title: 'cURL' }}
     curl --location --request POST '${props.apiBaseUrl}/datasets/{dataset_id}/documents/{document_id}/update-by-file' \
     --header 'Authorization: Bearer {api_key}' \
-    --form 'data="{\"name\":\"Dify\",\"indexing_technique\":\"high_quality\",\"process_rule\":{\"rules\":{\"pre_processing_rules\":[{\"id\":\"remove_extra_spaces\",\"enabled\":true},{\"id\":\"remove_urls_emails\",\"enabled\":true}],\"segmentation\":{\"separator\":\"###\",\"max_tokens\":500}},\"mode\":\"custom\"}}";type=text/plain' \
+    --form 'data="{\"name\":\"Nature\",\"indexing_technique\":\"high_quality\",\"process_rule\":{\"rules\":{\"pre_processing_rules\":[{\"id\":\"remove_extra_spaces\",\"enabled\":true},{\"id\":\"remove_urls_emails\",\"enabled\":true}],\"segmentation\":{\"separator\":\"###\",\"max_tokens\":500}},\"mode\":\"custom\"}}";type=text/plain' \
     --form 'file=@"/path/to/file"'
     ```
     </CodeGroup>
@@ -856,7 +856,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           "upload_file_id": ""
         },
         "dataset_process_rule_id": "",
-        "name": "Dify.txt",
+        "name": "Nature.txt",
         "created_from": "api",
         "created_by": "",
         "created_at": 1695308667,
@@ -1028,7 +1028,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
           "data_source_type": "file_upload",
           "data_source_info": null,
           "dataset_process_rule_id": null,
-          "name": "dify",
+          "name": "nature",
           "created_from": "",
           "created_by": "",
           "created_at": 1681623639,
@@ -1628,7 +1628,7 @@ import { Row, Col, Properties, Property, Heading, SubProperty, PropertyInstructi
     <tr>
       <td className="p-2 border border-slate-300">dataset_name_duplicate</td>
       <td className="p-2 border border-slate-300">409</td>
-      <td className="p-2 border border-slate-300">The dataset name already exists. Please modify your dataset name.</td>
+      <td className="p-2 border border-slate-300">The dataset name already exists. Please monature your dataset name.</td>
     </tr>
     <tr>
       <td className="p-2 border border-slate-300">invalid_action</td>

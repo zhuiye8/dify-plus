@@ -9,7 +9,7 @@ const translation = {
   },
   contribute: {
     line1: 'Ich interessiere mich dafür, ',
-    line2: 'Werkzeuge zu Dify beizutragen.',
+    line2: 'Werkzeuge zu Nature beizutragen.',
     viewGuide: 'Leitfaden anzeigen',
   },
   author: 'Von',
@@ -148,7 +148,7 @@ const translation = {
     emptyTipCustom: 'Erstellen eines benutzerdefinierten Werkzeugs',
   },
   toolNameUsageTip: 'Name des Tool-Aufrufs für die Argumentation und Aufforderung des Agenten',
-  customToolTip: 'Erfahren Sie mehr über benutzerdefinierte Dify-Tools',
+  customToolTip: 'Erfahren Sie mehr über benutzerdefinierte Nature-Tools',
   openInStudio: 'In Studio öffnen',
 }
 

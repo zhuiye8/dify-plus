@@ -60,7 +60,7 @@ const translation = {
       preview: 'Aperçu',
       crawlSubPage: 'Explorer les sous-pages',
       configure: 'Configurer',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       maxDepth: 'Profondeur maximale',
       fireCrawlNotConfigured: 'Firecrawl n’est pas configuré',
       firecrawlTitle: 'Extraire du contenu web avec 🔥Firecrawl',
@@ -196,7 +196,7 @@ const translation = {
   },
   otherDataSource: {
     learnMore: 'Pour en savoir plus',
-    description: 'Actuellement, la base de connaissances de Dify ne dispose que de sources de données limitées. Contribuer à une source de données dans la base de connaissances Dify est un moyen fantastique d’améliorer la flexibilité et la puissance de la plateforme pour tous les utilisateurs. Notre guide de contribution facilite la prise en main. Veuillez cliquer sur le lien ci-dessous pour en savoir plus.',
+    description: 'Actuellement, la base de connaissances de Nature ne dispose que de sources de données limitées. Contribuer à une source de données dans la base de connaissances Nature est un moyen fantastique d’améliorer la flexibilité et la puissance de la plateforme pour tous les utilisateurs. Notre guide de contribution facilite la prise en main. Veuillez cliquer sur le lien ci-dessous pour en savoir plus.',
     title: 'Se connecter à d’autres sources de données ?',
   },
 }

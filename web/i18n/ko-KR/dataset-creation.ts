@@ -51,7 +51,7 @@ const translation = {
       failed: '생성에 실패했습니다',
     },
     website: {
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       limit: '한계',
       options: '옵션',
       firecrawlDoc: 'Firecrawl 문서',
@@ -198,7 +198,7 @@ const translation = {
   otherDataSource: {
     learnMore: '더 알아보세요',
     title: '다른 데이터 소스에 연결하시겠습니까?',
-    description: '현재 Dify의 기술 자료에는 제한된 데이터 소스만 있습니다. Dify 기술 자료에 데이터 소스를 제공하는 것은 모든 사용자를 위해 플랫폼의 유연성과 기능을 향상시키는 데 도움이 되는 환상적인 방법입니다. 기여 가이드를 통해 쉽게 시작할 수 있습니다. 자세한 내용은 아래 링크를 클릭하십시오.',
+    description: '현재 Nature의 기술 자료에는 제한된 데이터 소스만 있습니다. Nature 기술 자료에 데이터 소스를 제공하는 것은 모든 사용자를 위해 플랫폼의 유연성과 기능을 향상시키는 데 도움이 되는 환상적인 방법입니다. 기여 가이드를 통해 쉽게 시작할 수 있습니다. 자세한 내용은 아래 링크를 클릭하십시오.',
   },
 }
 

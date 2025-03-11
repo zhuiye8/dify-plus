@@ -62,7 +62,7 @@ const translation = {
       unknownError: 'Lỗi không xác định',
       extractOnlyMainContent: 'Chỉ trích xuất nội dung chính (không có đầu trang, điều hướng, chân trang, v.v.)',
       exceptionErrorTitle: 'Một ngoại lệ xảy ra trong khi chạy tác vụ Firecrawl:',
-      firecrawlDocLink: 'https://docs.dify.ai/guides/knowledge-base/sync-from-website',
+      firecrawlDocLink: 'https://docs.nature.ai/guides/knowledge-base/sync-from-website',
       selectAll: 'Chọn tất cả',
       firecrawlTitle: 'Trích xuất nội dung web bằng 🔥Firecrawl',
       totalPageScraped: 'Tổng số trang được cạo:',
@@ -196,7 +196,7 @@ const translation = {
   },
   otherDataSource: {
     title: 'Kết nối với các nguồn dữ liệu khác?',
-    description: 'Hiện tại, cơ sở tri thức của Dify chỉ có nguồn dữ liệu hạn chế. Đóng góp nguồn dữ liệu vào cơ sở kiến thức Dify là một cách tuyệt vời để giúp nâng cao tính linh hoạt và sức mạnh của nền tảng cho tất cả người dùng. Hướng dẫn đóng góp của chúng tôi giúp bạn dễ dàng bắt đầu. Vui lòng nhấp vào liên kết bên dưới để tìm hiểu thêm.',
+    description: 'Hiện tại, cơ sở tri thức của Nature chỉ có nguồn dữ liệu hạn chế. Đóng góp nguồn dữ liệu vào cơ sở kiến thức Nature là một cách tuyệt vời để giúp nâng cao tính linh hoạt và sức mạnh của nền tảng cho tất cả người dùng. Hướng dẫn đóng góp của chúng tôi giúp bạn dễ dàng bắt đầu. Vui lòng nhấp vào liên kết bên dưới để tìm hiểu thêm.',
     learnMore: 'Tìm hiểu thêm',
   },
 }
