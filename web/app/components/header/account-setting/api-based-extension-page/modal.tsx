@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
-import { BookOpen01 } from '@/app/components/base/icons/src/vender/line/education'
 import type { ApiBasedExtension } from '@/models/common'
 import {
   addApiBasedExtension,
@@ -99,12 +98,12 @@ const ApiBasedExtensionModal: FC<ApiBasedExtensionModalProps> = ({
         <div className='flex justify-between items-center h-9 text-sm font-medium text-gray-900'>
           {t('common.apiBasedExtension.modal.apiEndpoint.title')}
           <a
-            href={t('common.apiBasedExtension.linkUrl') || '/'}
+            // href={t('common.apiBasedExtension.linkUrl') || '/'}
             target='_blank' rel='noopener noreferrer'
             className='group flex items-center text-xs text-gray-500 font-normal hover:text-primary-600'
           >
-            <BookOpen01 className='mr-1 w-3 h-3 text-gray-500 group-hover:text-primary-600' />
-            {t('common.apiBasedExtension.link')}
+            {/* <BookOpen01 className='mr-1 w-3 h-3 text-gray-500 group-hover:text-primary-600' />
+            {t('common.apiBasedExtension.link')} */}
           </a>
         </div>
         <input

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDebounce, useGetState } from 'ahooks'
 import produce from 'immer'
-import { LinkExternal02, Settings01 } from '../../base/icons/src/vender/line/general'
+import { Settings01 } from '../../base/icons/src/vender/line/general'
 import type { Credential, CustomCollectionBackend, CustomParamSchema, Emoji } from '../types'
 import { AuthHeaderPrefix, AuthType } from '../types'
 import GetSchema from './get-schema'
@@ -221,8 +221,8 @@ const EditCustomCollectionModal: FC<Props> = ({
                       target='_blank' rel='noopener noreferrer'
                       className='flex items-center h-[18px] space-x-1  text-[#155EEF]'
                     >
-                      <div className='text-xs font-normal'>{t('tools.createTool.viewSchemaSpec')}</div>
-                      <LinkExternal02 className='w-3 h-3' />
+                      {/* <div className='text-xs font-normal'>{t('tools.createTool.viewSchemaSpec')}</div>
+                      <LinkExternal02 className='w-3 h-3' /> */}
                     </a>
                   </div>
                   <GetSchema onChange={setSchema} />
