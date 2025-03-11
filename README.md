@@ -120,9 +120,8 @@ Dify-Plus，该名字不是说比 Dify 项目牛的意思，意思是想说比 D
 - 906631095@qq.com
 
 ### 微信交流群
-<img width="120" alt="image" src="https://github.com/user-attachments/assets/039e1f2d-2b43-4de1-bad6-f2b9797b315a" />
 
-
+<img width="120" alt="0318" src="https://github.com/user-attachments/assets/8291d7c6-a5d7-4a52-99d7-ab7540fe0de8" />
 
 ### 请作者喝咖啡~
 <img width="120" alt="image" src="https://github.com/user-attachments/assets/9a1ce3d4-3101-46eb-8a72-0a39db5b836b" />
