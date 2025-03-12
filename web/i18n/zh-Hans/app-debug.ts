@@ -202,14 +202,14 @@ const translation = {
     fileUpload: {
       title: '文件上传',
       description: '聊天输入框支持上传文件。类型包括图片、文档以及其它类型',
-      supportedTypes: '支持的文件类型',
+      supportedTypes: '',
       numberLimit: '最大上传数',
       modalTitle: '文件上传设置',
     },
     imageUpload: {
       title: '图片上传',
       description: '支持上传图片',
-      supportedTypes: '支持的文件类型',
+      supportedTypes: '类型',
       numberLimit: '最大上传数',
       modalTitle: '图片上传设置',
     },
