@@ -14,7 +14,7 @@ Workflow 应用无会话支持，适合用于翻译/文章写作/总结 AI 等�
 
   ### Authentication
 
-  Dify Service API 使用 `API-Key` 进行鉴权。
+  Nature Service API 使用 `API-Key` 进行鉴权。
   <i>**强烈建议开发者把 `API-Key` 放在后端存储，而非分享或者放在客户端存储，以免 `API-Key` 泄露，导致财产损失。**</i>
   所有 API 请求都应在 **`Authorization`** HTTP Header 中包含您的 `API-Key`，如下所示：
 
@@ -237,7 +237,7 @@ Workflow 应用无会话支持，适合用于翻译/文章写作/总结 AI 等�
       import json
 
       def upload_file(file_path, user):
-          upload_url = "https://api.dify.ai/v1/files/upload"
+          upload_url = "https://api.Nature.ai/v1/files/upload"
           headers = {
               "Authorization": "Bearer app-xxxxxxxx",
           }
@@ -265,7 +265,7 @@ Workflow 应用无会话支持，适合用于翻译/文章写作/总结 AI 等�
               return None
 
       def run_workflow(file_id, user, response_mode="blocking"):
-          workflow_url = "https://api.dify.ai/v1/workflows/run"
+          workflow_url = "https://api.Nature.ai/v1/workflows/run"
           headers = {
               "Authorization": "Bearer app-xxxxxxxxx",
               "Content-Type": "application/json"
@@ -298,7 +298,7 @@ Workflow 应用无会话支持，适合用于翻译/文章写作/总结 AI 等�
 
       # 使用示例
       file_path = "{your_file_path}"
-      user = "difyuser"
+      user = "Natureuser"
 
       # 上传文件
       file_id = upload_file(file_path, user)

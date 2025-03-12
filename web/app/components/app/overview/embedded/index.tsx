@@ -142,11 +142,11 @@ const Embedded = ({ siteInfo, isShow, onClose, appBaseUrl, accessToken, classNam
       </div>
       {option === 'chromePlugin' && (
         <div className="w-full mt-6">
-          <div className={cn('gap-2 py-3 justify-center items-center inline-flex w-full rounded-lg',
+          {/* <div className={cn('gap-2 py-3 justify-center items-center inline-flex w-full rounded-lg',
             'bg-primary-600 hover:bg-primary-600/75 hover:shadow-md cursor-pointer text-white hover:shadow-sm flex-shrink-0')}>
             <div className={`w-4 h-4 relative ${style.pluginInstallIcon}`}></div>
             <div className="text-white text-sm font-medium font-['Inter'] leading-tight" onClick={navigateToChromeUrl}>{t(`${prefixEmbedded}.chromePlugin`)}</div>
-          </div>
+          </div> */}
         </div>
       )}
       <div className={cn('w-full bg-gray-100 rounded-lg flex-col justify-start items-start inline-flex',

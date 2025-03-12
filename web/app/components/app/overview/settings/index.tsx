@@ -2,8 +2,7 @@
 import type { FC } from 'react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
-import Link from 'next/link'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useContext, useContextSelector } from 'use-context-selector'
 import { SparklesSoft } from '@/app/components/base/icons/src/public/common'
 import Modal from '@/app/components/base/modal'
@@ -19,7 +18,7 @@ import { SimpleSelect } from '@/app/components/base/select'
 import type { AppDetailResponse } from '@/models/app'
 import type { AppIconType, AppSSO, Language } from '@/types/app'
 import { useToastContext } from '@/app/components/base/toast'
-import { LanguagesSupported, languages } from '@/i18n/language'
+import { languages } from '@/i18n/language'
 import Tooltip from '@/app/components/base/tooltip'
 import AppContext, { useAppContext } from '@/context/app-context'
 import { useProviderContext } from '@/context/provider-context'
@@ -228,10 +227,10 @@ const SettingsModal: FC<ISettingsModalProps> = ({
               <RiCloseLine className='w-4 h-4' />
             </ActionButton>
           </div>
-          <div className='mt-0.5 text-text-tertiary system-xs-regular'>
+          {/* <div className='mt-0.5 text-text-tertiary system-xs-regular'>
             <span>{t(`${prefixSettings}.modalTip`)}</span>
             <Link href={`${locale === LanguagesSupported[1] ? 'https://docs.dify.ai/zh-hans/guides/application-publishing/launch-your-webapp-quickly#she-zhi-ni-de-ai-zhan-dian' : 'https://docs.dify.ai/guides/application-publishing/launch-your-webapp-quickly#setting-up-your-ai-site'}`} target='_blank' rel='noopener noreferrer' className='text-text-accent'>{t('common.operation.learnMore')}</Link>
-          </div>
+          </div> */}
         </div>
         {/* form body */}
         <div className='px-6 py-3 space-y-5'>
@@ -406,12 +405,12 @@ const SettingsModal: FC<ISettingsModalProps> = ({
               {/* privacy policy */}
               <div className='w-full'>
                 <div className={cn('py-1 text-text-secondary system-sm-semibold')}>{t(`${prefixSettings}.more.privacyPolicy`)}</div>
-                <p className={cn('pb-0.5 body-xs-regular text-text-tertiary')}>
+                {/* <p className={cn('pb-0.5 body-xs-regular text-text-tertiary')}>
                   <Trans
                     i18nKey={`${prefixSettings}.more.privacyPolicyTip`}
                     components={{ privacyPolicyLink: <Link href={'https://docs.dify.ai/user-agreement/privacy-policy'} target='_blank' rel='noopener noreferrer' className='text-text-accent' /> }}
                   />
-                </p>
+                </p> */}
                 <Input
                   className='mt-1'
                   value={inputInfo.privacyPolicy}
