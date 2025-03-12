@@ -30,9 +30,9 @@ export default async function SignInLayout({ children }: any) {
             {children}
           </div>
         </div>
-        <div className='px-8 py-6 system-xs-regular text-text-tertiary'>
+        {/* <div className='px-8 py-6 system-xs-regular text-text-tertiary'>
           © {new Date().getFullYear()} LangGenius, Inc. All rights reserved.
-        </div>
+        </div> */}
       </div>
     </div>
   </>

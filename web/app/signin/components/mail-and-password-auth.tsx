@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -134,14 +133,14 @@ export default function MailAndPasswordAuth({ isInvite, isEmailSetup, allowRegis
     <div className='mb-3'>
       <label htmlFor="password" className="my-2 flex items-center justify-between">
         <span className='system-md-semibold text-text-secondary'>{t('login.password')}</span>
-        <Link
+        {/* <Link
           href={`/reset-password?${searchParams.toString()}`}
           className={`system-xs-regular ${isEmailSetup ? 'text-components-button-secondary-accent-text' : 'text-components-button-secondary-accent-text-disabled pointer-events-none'}`}
           tabIndex={isEmailSetup ? 0 : -1}
           aria-disabled={!isEmailSetup}
         >
           {t('login.forget')}
-        </Link>
+        </Link> */}
       </label>
       <div className="relative mt-1">
         <Input
