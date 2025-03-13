@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import { useDebounce, useDebounceFn } from 'ahooks'
 import { groupBy, omit } from 'lodash-es'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import { RiExternalLinkLine } from '@remixicon/react'
 import AutoDisabledDocument from '../common/document-status-with-action/auto-disabled-document'
 import List from './list'
 import s from './style.module.css'
@@ -238,7 +237,7 @@ const Documents: FC<IDocumentsProps> = ({ datasetId }) => {
     <div className='flex flex-col h-full overflow-y-auto'>
       <div className='flex flex-col justify-center gap-1 px-6 pt-4'>
         <h1 className='text-base font-semibold text-text-primary'>{t('datasetDocuments.list.title')}</h1>
-        <div className='flex items-center text-sm font-normal text-text-tertiary space-x-0.5'>
+        {/* <div className='flex items-center text-sm font-normal text-text-tertiary space-x-0.5'>
           <span>{t('datasetDocuments.list.desc')}</span>
           <a
             className='flex items-center text-text-accent'
@@ -247,7 +246,7 @@ const Documents: FC<IDocumentsProps> = ({ datasetId }) => {
             <span>{t('datasetDocuments.list.learnMore')}</span>
             <RiExternalLinkLine className='w-3 h-3' />
           </a>
-        </div>
+        </div> */}
       </div>
       <div className='flex flex-col px-6 py-4 flex-1'>
         <div className='flex items-center justify-between flex-wrap'>
