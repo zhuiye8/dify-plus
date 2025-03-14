@@ -1,48 +1,24 @@
 """
 文档生成工具实现
 """
-from typing import Any, Union, ClassVar, Optional, List, Dict
+from typing import Any, Union, Optional, List, Dict
 from docx import Document
 import os
 import json
-import requests
 import re
 from io import BytesIO
 
 from core.tools.entities.tool_entities import ToolInvokeMessage
 from core.tools.tool.builtin_tool import BuiltinTool
-from core.file.enums import FileType, FileAttribute
-from core.file.file_manager import download, get_attr
+from core.file.file_manager import download
 
 
 class DocumentGeneratorTool(BuiltinTool):
     """
     文档生成工具类
     
-    从Word模板生成文档，支持动态数据替换和语言模型增强
+    从Word模板生成文档，支持动态数据替换
     """
-    DIFY_API_URL: ClassVar[str] = "https://api.dify.ai/v1"
-
-    def _invoke_dify_llm(self, prompt: str, api_key: str) -> str:
-        """调用 Dify 语言模型 API"""
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-        data = {
-            "messages": [{"role": "user", "content": prompt}],
-            "response_mode": "blocking"
-        }
-        
-        try:
-            response = requests.post(f"{self.DIFY_API_URL}/chat-messages", headers=headers, json=data)
-            response.raise_for_status()
-            result = response.json()
-            return result.get("answer", "").strip()
-        except requests.exceptions.RequestException as e:
-            raise Exception(f"语言模型调用失败: {str(e)}")
-        except json.JSONDecodeError:
-            raise Exception(f"语言模型返回的JSON格式无效: {response.text}")
 
     def _get_file_content(self, file_obj: Any) -> bytes:
         """
@@ -99,7 +75,7 @@ class DocumentGeneratorTool(BuiltinTool):
         except Exception:
             return None
 
-    def analyze_template(self, doc: Document, data: Dict[str, Any], api_key: str) -> Dict[str, Any]:
+    def analyze_template(self, doc: Document, data: Dict[str, Any]) -> Dict[str, Any]:
         """分析文档模板中的占位符字段并匹配数据字段"""
         all_text = []
         for para in doc.paragraphs:
@@ -123,11 +99,6 @@ class DocumentGeneratorTool(BuiltinTool):
         
         return replacement_data
 
-    def polish_field(self, field_name: str, field_value: str, api_key: str) -> str:
-        """使用语言模型润色字段值"""
-        prompt = f"请润色以下文本内容（这是'{field_name}'字段的内容），使其更专业、流畅自然，但保持原始含义：\n\n{field_value}"
-        return self._invoke_dify_llm(prompt, api_key)
-
     def _invoke(
         self,
         user_id: str,
@@ -136,15 +107,8 @@ class DocumentGeneratorTool(BuiltinTool):
         """
         执行文档生成逻辑
         """
-        # 获取凭证和参数
-        dify_api_key = self.runtime.credentials.get("dify_api_key")
-        if not dify_api_key:
-            raise Exception("Dify API Key 未提供")
-
         template_file = tool_parameters.get("template")
         data_json = tool_parameters.get("data")
-        polish_fields_str = tool_parameters.get("polish_fields", "")
-        polish_fields = [field.strip() for field in polish_fields_str.split(",")] if polish_fields_str else []
 
         # 校验输入
         if not template_file:
@@ -168,15 +132,7 @@ class DocumentGeneratorTool(BuiltinTool):
             raise Exception(f"读取模板文件失败: {str(e)}")
 
         # 分析模板中的字段并获取替换数据
-        replacement_data = self.analyze_template(doc, data, dify_api_key)
-
-        # 处理需要润色的字段
-        if polish_fields:
-            for field in polish_fields:
-                if field in replacement_data:
-                    value = replacement_data[field]
-                    if value is not None:
-                        replacement_data[field] = self.polish_field(field, str(value), dify_api_key)
+        replacement_data = self.analyze_template(doc, data)
         
         # 替换文档中的占位符
         self._replace_placeholders(doc, replacement_data)
@@ -230,11 +186,7 @@ class DocumentGeneratorTool(BuiltinTool):
             para.text = new_text
 
     def validate_credentials(self, credentials: dict[str, Any], tool_parameters: dict[str, Any]) -> None:
-        """验证凭证和参数"""
-        dify_api_key = credentials.get("dify_api_key")
-        if not dify_api_key:
-            raise Exception("Dify API Key 未提供")
-
+        """验证参数"""
         # 检查必要参数是否存在
         if "template" not in tool_parameters:
             raise Exception("模板文件参数缺失")
@@ -247,10 +199,4 @@ class DocumentGeneratorTool(BuiltinTool):
             try:
                 json.loads(data_json)
             except json.JSONDecodeError:
-                raise Exception("数据格式错误，必须为有效的 JSON")
-
-        # 测试语言模型调用
-        try:
-            self._invoke_dify_llm("测试提示", dify_api_key)
-        except Exception as e:
-            raise Exception(f"语言模型调用测试失败: {str(e)}") 
+                raise Exception("数据格式错误，必须为有效的 JSON") 

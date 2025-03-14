@@ -1,0 +1,14 @@
+identity:
+  author: dify
+  name: nature
+  label:
+    en_US: Nature Document Tools
+    zh_Hans: Nature 文档工具
+  description:
+    en_US: Tools for generating and processing documents and spreadsheets.
+    zh_Hans: 用于生成和处理文档和电子表格的工具。
+  icon: icon.svg
+  tags:
+    - productivity
+    - business
+    - utilities
