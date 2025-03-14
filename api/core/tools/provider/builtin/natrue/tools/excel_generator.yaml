@@ -1,0 +1,56 @@
+identity:
+  name: excel_generator
+  author: dify
+  label:
+    en_US: Excel Generator
+    zh_Hans: Excel 生成器
+description:
+  human:
+    en_US: Generate Excel files from data with LLM-enhanced formatting.
+    zh_Hans: 使用 LLM 增强格式化功能，从数据生成 Excel 文件。
+  llm: This tool generates Excel files from provided data. It uses a language model to optimize the data structure for Excel formatting, and then creates a well-formatted Excel file with proper columns, formatting, and styling.
+parameters:
+  - name: data
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Data
+      zh_Hans: 数据
+    human_description:
+      en_US: JSON data to be converted to Excel. Can be an array of objects or a complex nested structure.
+      zh_Hans: 要转换为 Excel 的 JSON 数据。可以是对象数组或复杂的嵌套结构。
+    llm_description: JSON data to be converted to Excel. Can be an array of objects or a complex nested structure.
+  - name: sheet_name
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Sheet Name
+      zh_Hans: 工作表名称
+    human_description:
+      en_US: Name of the Excel sheet. Default is "Sheet1".
+      zh_Hans: Excel 工作表的名称。默认为 "Sheet1"。
+    llm_description: Name of the Excel sheet. Default is "Sheet1".
+  - name: format_instructions
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Format Instructions
+      zh_Hans: 格式化指令
+    human_description:
+      en_US: Additional instructions for the LLM on how to format the data (e.g., "Group by department", "Sort by date").
+      zh_Hans: 为 LLM 提供的关于如何格式化数据的额外指令（例如，"按部门分组"，"按日期排序"）。
+    llm_description: Additional instructions for the LLM on how to format the data (e.g., "Group by department", "Sort by date").
+  - name: include_styling
+    type: boolean
+    required: false
+    form: llm
+    label:
+      en_US: Include Styling
+      zh_Hans: 包含样式
+    human_description:
+      en_US: Whether to apply styling to the Excel file (headers, colors, etc.). Default is true.
+      zh_Hans: 是否对 Excel 文件应用样式（标题、颜色等）。默认为 true。
+    llm_description: Whether to apply styling to the Excel file (headers, colors, etc.). Default is true. 

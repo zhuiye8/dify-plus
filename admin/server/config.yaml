@@ -7,7 +7,7 @@ aliyun-oss:
     base-path: ""
 autocode:
     web: ""
-    root: /Users/yisio/workspace/dify-plus/admin
+    root: /home/user/dify-plus/admin
     server: ""
     module: github.com/flipped-aurora/gin-vue-admin/server
     ai-path: ""
@@ -61,7 +61,7 @@ hua-wei-obs:
     access-key: ""
     secret-key: ""
 jwt:
-    signing-key: l0n4ca6mB6PkKqjbaGEglf2HLBRDoygDj1cu/l+ssuYkFee3EhzXENt7
+    signing-key: fZETBACAnAP6xIuQtjoi4vnbRwcE9gzBymVMPDRlTlmD0bq8lI0AIVtJ
     expires-time: 1d
     buffer-time: 1d
     issuer: CLOUD
@@ -143,7 +143,7 @@ pgsql:
     config: sslmode=disable TimeZone=Asia/Shanghai
     db-name: dify
     username: postgres
-    password: difyai123456
+    password: "123456"
     path: localhost
     engine: ""
     log-mode: error

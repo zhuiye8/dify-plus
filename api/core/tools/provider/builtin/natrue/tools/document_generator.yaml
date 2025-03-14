@@ -1,0 +1,47 @@
+identity:
+  name: document_generator
+  author: dify
+  label:
+    en_US: Document Generator
+    zh_Hans: 文档生成器
+description:
+  human:
+    en_US: Generate documents from templates with dynamic data replacement and LLM enhancement.
+    zh_Hans: 使用动态数据替换和语言模型增强从模板生成文档。
+  llm: This tool generates documents from Word templates by replacing placeholders with data. It can analyze templates, match fields with data, and optionally polish content using a language model.
+parameters:
+  - name: template
+    type: file
+    required: true
+    label:
+      en_US: Template File
+      zh_Hans: 模板文件
+    human_description:
+      en_US: Word document (.docx) template with {{field}} placeholders.
+      zh_Hans: 带有 {{field}} 占位符的 Word 文档 (.docx) 模板。
+    llm_description: Word document (.docx) template with {{field}} placeholders.
+    form: llm
+    file_type: document
+    file_format: docx
+  - name: data
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Data
+      zh_Hans: 数据
+    human_description:
+      en_US: JSON data to replace placeholders in the template.
+      zh_Hans: 用于替换模板中占位符的 JSON 数据。
+    llm_description: JSON data to replace placeholders in the template.
+  - name: polish_fields
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Polish Fields
+      zh_Hans: 润色字段
+    human_description:
+      en_US: Comma-separated list of fields to polish with LLM (e.g., "summary,description").
+      zh_Hans: 使用语言模型润色的字段列表，以逗号分隔（例如，"summary,description"）。
+    llm_description: Comma-separated list of fields to polish with LLM (e.g., "summary,description"). 
