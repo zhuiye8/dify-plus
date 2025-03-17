@@ -1,6 +1,6 @@
 identity:
   name: document_generator
-  author: dify
+  author: nature
   label:
     en_US: Document Generator
     zh_Hans: 文档生成器

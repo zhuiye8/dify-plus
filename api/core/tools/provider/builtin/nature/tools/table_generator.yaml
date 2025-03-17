@@ -1,0 +1,45 @@
+identity:
+  name: table_generator
+  author: nature
+  label:
+    en_US: Table Generator
+    zh_Hans: 表格生成器
+description:
+  human:
+    en_US: Generate table files from structured data.
+    zh_Hans: 从结构化数据生成表格文件。
+  llm: This tool generates table files from provided data with proper columns, formatting, and styling.
+parameters:
+  - name: data
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Data
+      zh_Hans: 数据
+    human_description:
+      en_US: JSON data or CSV string to be converted to table. For JSON, it should be an array of objects with consistent structure.
+      zh_Hans: 要转换为表格的 JSON 数据或 CSV 字符串。对于 JSON，应该是具有一致结构的对象数组。
+    llm_description: JSON data or CSV string to be converted to table. For JSON, it should be an array of objects with consistent structure.
+  - name: sheet_name
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Sheet Name
+      zh_Hans: 工作表名称
+    human_description:
+      en_US: Name of the table sheet. Default is "Sheet1".
+      zh_Hans: 表格工作表的名称。默认为 "Sheet1"。
+    llm_description: Name of the table sheet. Default is "Sheet1".
+  - name: include_styling
+    type: boolean
+    required: false
+    form: llm
+    label:
+      en_US: Include Styling
+      zh_Hans: 包含样式
+    human_description:
+      en_US: Whether to apply styling to the table file (headers, colors, etc.). Default is true.
+      zh_Hans: 是否对表格文件应用样式（标题、颜色等）。默认为 true。
+    llm_description: Whether to apply styling to the table file (headers, colors, etc.). Default is true. 
