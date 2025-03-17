@@ -20,5 +20,5 @@ class NatureToolProvider(BuiltinToolProviderController):
         Args:
             credentials: 凭证字典
         """
-        # 不需要验证凭证
+        # 不需要验证凭证    
         pass 
