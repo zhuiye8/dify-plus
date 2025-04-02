@@ -70,7 +70,7 @@ const FileUploader = ({
   })()
   const ACCEPTS = supportTypes.map((ext: string) => `.${ext}`)
   const fileUploadConfig = useMemo(() => fileUploadConfigResponse ?? {
-    file_size_limit: 15,
+    file_size_limit: 1500,
     batch_count_limit: 5,
   }, [fileUploadConfigResponse])
 

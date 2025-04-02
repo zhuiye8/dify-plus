@@ -1,0 +1,36 @@
+identity:
+  name: ppt_generator
+  author: nature
+  label:
+    en_US: PPT Generator
+    zh_Hans: PPT生成器
+description:
+  human:
+    en_US: Generate PowerPoint presentations from outlines and templates.
+    zh_Hans: 使用大纲和模板生成PowerPoint演示文稿。
+  llm: This tool generates PowerPoint presentations from outlines by creating slides based on a markdown-like format and optional templates.
+parameters:
+  - name: outline
+    type: string
+    required: true
+    label:
+      en_US: Presentation Outline
+      zh_Hans: 演示文稿大纲
+    human_description:
+      en_US: Outline text in markdown-like format (e.g., "# Title\n## Subtitle\n- Point 1\n- Point 2").
+      zh_Hans: 以类似Markdown格式的大纲文本（例如，"# 标题\n## 副标题\n- 要点1\n- 要点2"）。
+    llm_description: Outline text in markdown-like format where "# " starts a title slide, "## " creates a subtitle, and "- " or "* " creates bullet points.
+    form: llm
+  - name: template
+    type: file
+    required: false
+    label:
+      en_US: Template File
+      zh_Hans: 模板文件
+    human_description:
+      en_US: PowerPoint template (.pptx) to use for the presentation (optional).
+      zh_Hans: 用于演示文稿的PowerPoint模板(.pptx)（可选）。
+    llm_description: PowerPoint template (.pptx) to use for the presentation. If not provided, a blank template will be used.
+    form: llm
+    file_type: presentation
+    file_format: pptx 

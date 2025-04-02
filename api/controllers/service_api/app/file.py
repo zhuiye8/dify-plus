@@ -12,14 +12,14 @@ from controllers.service_api.app.error import (
 )
 from controllers.service_api.wraps import FetchUserArg, WhereisUserArg, validate_app_token
 from fields.file_fields import file_fields
-from models.model import App, EndUser
+from models.model import ApiToken, App, EndUser
 from services.file_service import FileService
 
 
 class FileApi(Resource):
     @validate_app_token(fetch_user_arg=FetchUserArg(fetch_from=WhereisUserArg.FORM))
     @marshal_with(file_fields)
-    def post(self, app_model: App, end_user: EndUser):
+    def post(self, app_model: App, end_user: EndUser, api_token: ApiToken):
         file = request.files["file"]
 
         # check file
