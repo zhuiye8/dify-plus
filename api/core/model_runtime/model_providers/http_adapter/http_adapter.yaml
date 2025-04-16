@@ -1,0 +1,74 @@
+provider: http_adapter
+label:
+  en_US: HTTP Adapter
+  zh_Hans: HTTP适配器
+description:
+  en_US: Connect to DeepSeek API and other LLM models via HTTP API endpoints
+  zh_Hans: 通过HTTP API端点连接到DeepSeek API及其他LLM模型
+icon_small:
+  en_US: icon_s_en.svg
+  zh_Hans: icon_s_zh.svg
+icon_large:
+  en_US: icon_l_en.svg
+  zh_Hans: icon_l_zh.svg
+background: "#e0f7ff"
+help:
+  title:
+    en_US: Configure HTTP LLM Adapter
+    zh_Hans: 配置HTTP LLM适配器
+  url:
+    en_US: https://docs.dify.ai/v/zh-hans/advanced/model-configuration
+supported_model_types:
+  - llm
+configurate_methods:
+  - predefined-model
+  - customizable-model
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      zh_Hans: 模型名称
+    placeholder:
+      en_US: Enter your model name (e.g. deepseek-chat)
+      zh_Hans: 输入模型名称（例如 deepseek-chat）
+  credential_form_schemas:
+    - variable: api_key
+      label:
+        en_US: API Key
+        zh_Hans: API 密钥
+      type: secret-input
+      required: true
+      placeholder:
+        zh_Hans: 在此输入您的 API Key
+        en_US: Enter your API Key
+    - variable: base_url
+      label:
+        zh_Hans: API 基础地址
+        en_US: API Base URL
+      type: text-input
+      required: true
+      default: "https://api.deepseek.com"
+      placeholder:
+        zh_Hans: 例如 https://api.deepseek.com
+        en_US: e.g. https://api.deepseek.com
+provider_credential_schema:
+  credential_form_schemas:
+    - variable: api_key
+      label:
+        en_US: API Key
+        zh_Hans: API 密钥
+      type: secret-input
+      required: true
+      placeholder:
+        zh_Hans: 在此输入您的 API Key
+        en_US: Enter your API Key
+    - variable: base_url
+      label:
+        zh_Hans: API 基础地址
+        en_US: API Base URL
+      type: text-input
+      required: true
+      default: "https://api.deepseek.com"
+      placeholder:
+        zh_Hans: 例如 https://api.deepseek.com
+        en_US: e.g. https://api.deepseek.com 
